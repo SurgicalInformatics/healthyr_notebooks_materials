@@ -1,0 +1,260 @@
+---
+title: "Different types of plots"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+Before starting a new session, remember to Restart R (top menu, Session - Restart R).
+
+# Data
+We will be using the gapminder dataset:
+
+```{r, message=F}
+library(tidyverse)
+library(gapminder)
+
+mydata = gapminder
+
+mydata %>% summary()
+mydata$year %>% unique()
+```
+
+# Scatter plots/bubble plots - `geom_point()`
+
+Let's plot life expectancy against GDP per capita (`x = gdpPercap, y=lifeExp`) at year 2007:
+```{r}
+mydata %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y=lifeExp)) +
+  geom_point()
+```
+
+
+## Exercise 1
+
+Follow the step-by-step instructions to transform the initial grey scatterplot into a colourful 5-panel (one for each continent) bubble plot. Run the chunk after every step to see how it worked and how the plot evolves.
+
+1. Copy the 4-line plot code from above to the Exercise box below.
+2. Add `shape = 1` inside `geom_point()` (or experiment with any other shape number from your Quickstart Sheet).
+3. Colour each country point by its continent: add `, colour=continent` to aes()
+4. Size each country point by its population: add `, size=pop` to aes()
+5. Put the country points of each continent on a separate panel: add `+ facet_wrap(~continent)` after `+ geom_point(shape = 1) +`.
+6. Make the background white by adding `+ theme_bw()` after the `facet_wrap(~continent)`
+7. Add `/1000` immediately after `x = gdpPercap` to divide it by 1000 - it will make the scale easier to read. The units on the plot are then gdpPercap in thousands of dollars.
+
+```{r}
+# Exercise 1 - your R code:
+
+```
+
+ 
+# Line chart/timeplot - `geom_line()`
+
+Let's plot life expectancy against year (`x = year, y=lifeExp`), add `geom_line()`:
+
+```{r, fig.width = 4, fig.height=3}
+mydata %>% 
+  ggplot(aes(x = year, y=lifeExp)) +
+  geom_line()
+```
+
+The reason you now see this weird zig-zag is that, using the above code, R does not know you want a connected line for each country. Specify how you want data points grouped to lines: `group = country` in `aes()`:
+
+```{r, fig.width = 4, fig.height=3}
+mydata %>% 
+  ggplot(aes(x     = year,
+             y     = lifeExp,
+             group = country)) +
+  geom_line()
+```
+
+## Exercise 2
+
+Similarly to Exercise 1, follow the step-by-step instructions to transform the initial black lineplot into a colourful 5-panel one.
+
+1. Colour lines by continents: ass `, colour=continent` to `aes()`
+2. Put the Continents on separate facets: `+ facet_wrap(~continent)`
+3. Make the background white: `+ theme_bw()`
+4. Use a nicer colour scheme: `+ scale_colour_brewer(palette = "Paired")`
+
+
+```{r, fig.width=10, fig.height=4}
+
+mydata %>% 
+  ggplot(aes(x = year,
+             y=lifeExp,
+             group = country,
+             colour=continent)) +
+  geom_line() +
+  facet_wrap(~continent) + 
+  theme_bw() +
+  scale_colour_brewer(palette = "Paired")
+
+```
+
+
+### Exercise 3
+
+After filtering to European countries only (note the `filter(continent == "Europe") %>%`), we can plot life expectancy over time in grey colour for all countries, then add United Kingdom as a red line. Run this chunk to see how that looks.
+
+Add in another coloured line, e.g. France in blue.
+
+```{r, fig.width=4, fig.height=2}
+# Exercise 3 - copy the last line and modify to to France and blue
+mydata %>%
+  filter(continent == "Europe") %>% #Europe only
+  ggplot(aes(x = year, y=lifeExp, group = country)) +
+  geom_line(colour = "grey") +
+  theme_bw() +
+  geom_line(data = filter(mydata, country == "United Kingdom"), colour = "red")
+
+```
+
+# Box-plot - `geom_boxplot()`
+
+We can plot the distribution of life expectancies within each continent at year 2007 by:
+
+1. Filtering for one year: `filter(year == 2007) %>%`
+2. Changing the variables specified in `aes()`: `x = continent, y = lifeExp`
+3. adding the `+ geom_boxplot()` instead of `_line` or `_point`.
+
+Run the chunk below to see what a basic boxplot looks like:
+
+```{r, fig.width=2.75, fig.height=2.75}
+mydata %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = continent, y = lifeExp)) +
+  geom_boxplot() +
+  theme_bw()
+```
+
+## Exercise 4
+
+Add individual (country) points on top of the box plot. Do Ctrl+Enter after every step to see how it changes.
+
+1. Copy the boxplot code from above and add in a second geom: `+ geom_jitter()`.
+2. Add `aes(colour=continent)` inside `geom_jitter()` to give the points some colour.
+3. Add `, width = 0.2` after the `aes(colour=continent)` but still inside `geom_jitter()`. This will bring the jittered points together towards the centre of each continent.
+4. Now after the width, still inside jitter, add  `, alpha=0.6`. This will make the points semi-transparent.
+
+```{r, fig.width=5, fig.height=4}
+#Exercise 4 - your R code:
+
+```
+
+Discuss: what's the difference between `geom_point()` and `geom_jitter()`. Hint: you can experiment by just changing it from jitter to point - your solution to Exercise 4 will still work.
+
+# Barplot - `geom_bar()` and `geom_col()`
+
+
+In the first module, we plotted barplots from already summarised data (using the `geom_col`), but `geom_bar()` is perfectly happy to count up data for you. For example, we can plot the number of countries in each continent without summarising the data beforehand:
+
+```{r, fig.width=5, fig.height=4}
+mydata %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = continent)) +
+  geom_bar() + 
+  ylab("Number of countries") +
+  theme_bw()
+```
+
+## Exercise 5 
+
+Create a barplot of life Expectancies in European countries (year 2007):
+
+1. Copy the barplot example from above.
+2. Add in a filter for `continent == "Europe"`.
+3. Change `x` to equal country, add in `y` that equals lifeExp (both inside the `aes()`). If you now run the code, you will get an error that says `Error: stat_count() must not be used with a y aesthetic.`. What this is really saying that `geom_bar()` does not want to see a y value - as it just counts up the number of occurances in the data.
+4. Change from `geom_bar()` to `geom_col()`.
+5. Change the `ylab()` to "Life expactancy in 2007".
+6. Add `+ coord_flip()`.
+7. Change from `theme_bw()` to `theme_classic()`.
+8. Optional: give the bars a blue outline by adding `colour = "blue", fill = NA` into `geom_col()`.
+9. Optional: reorder the countries based on their lifeExp value by changing the x variable to `fct_reorder(country, lifeExp)`.
+10. Optional: add `+ xlab("Country")`.
+
+```{r}
+# Exercise 5 - your R code:
+
+```
+
+
+
+# Solutions
+
+## Exercise 1 solution
+
+
+```{r, fig.width=6}
+mydata %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap/1000,
+             y=lifeExp,
+             colour=continent,
+             size=pop)) +
+  geom_point(shape = 1) +
+  facet_wrap(~continent) +
+  theme_bw()
+```
+
+
+
+## Exercise 2 solution
+
+```{r, fig.width=10, fig.height=4}
+mydata %>% 
+  ggplot(aes(x = year,
+             y=lifeExp,
+             group = country,
+             colour=continent)) +
+  geom_line() +
+  facet_wrap(~continent) + 
+  theme_bw() +
+  scale_colour_brewer(palette = "Paired")
+
+```
+
+
+## Exercise 3 solution
+
+After filtering to European countries only (note the `filter(continent == "Europe") %>%`), we can plot life expectancy over time in grey colour for all countries, then add United Kingdom as a red line. Run this chunk to see how that looks.
+
+Add in another coloured line, e.g. France in blue.
+
+```{r, fig.width=4, fig.height=2}
+mydata %>%
+  filter(continent == "Europe") %>% #Europe only
+  ggplot(aes(x = year, y=lifeExp, group = country)) +
+  geom_line(colour = "grey") +
+  theme_bw() +
+  geom_line(data = filter(mydata, country == "United Kingdom"), colour = "red") +
+  geom_line(data = filter(mydata, country == "France"),         colour = "blue")
+
+```
+
+## Exercise 4 solution
+
+```{r, fig.width=5, fig.height=4}
+mydata %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = continent, y = lifeExp)) +
+  geom_boxplot() +
+  theme_bw() +
+  geom_jitter(aes(colour=continent), width = 0.2, alpha = 0.5)
+```
+
+## Exercise 5 solution
+
+```{r, fig.width=5, fig.height=4}
+mydata %>% 
+  filter(year == 2007) %>% 
+  filter(continent  == "Europe") %>% 
+  ggplot(aes(x = fct_reorder(country, lifeExp), y = lifeExp)) +
+  geom_col(colour = "blue", fill = NA) + 
+  ylab("Life expactancy in 2007") +
+  xlab("Country") +
+  theme_classic() +
+  coord_flip()
+
+```
