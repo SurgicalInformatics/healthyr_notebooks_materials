@@ -1,0 +1,64 @@
+---
+title: "Markdown and exporting your plots/tables"
+author: '! Your name here !'
+date: "10-May 2019"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+# Data and set-up
+
+Loading the packages:
+
+```{r message=FALSE, warning=FALSE}
+
+library(tidyverse)
+library(knitr)
+library(gapminder)
+
+```
+
+We are using the gapminder dataset:
+
+```{r}
+
+mydata = gapminder %>% 
+  mutate(gdpPercap = round(gdpPercap)) %>% 
+  mutate(pop_millions = (pop/1e6) %>% round(1)) %>% 
+  select(-pop)
+
+```
+
+A random sample of rows in the dataset:
+```{r}
+
+mydata %>% 
+  sample_n(10) %>% 
+  kable()
+
+```
+
+
+Number of variables: `r mydata %>% ncol()`.
+
+Total number of observations: `r mydata %>% nrow()`.
+
+
+# Plotting
+
+```{r}
+mydata %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x      = gdpPercap/1000, #divide by 1000 to tidy the x-axis
+             y      = lifeExp,
+             colour = continent,
+             size   = pop_millions)) +
+  geom_point(shape = 1) +
+  theme_bw()
+```
+
+
+
+
