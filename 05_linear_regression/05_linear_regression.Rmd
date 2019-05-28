@@ -1,6 +1,8 @@
 ---
-title: "Linear regression"
-output: html_notebook
+title: "05 - Linear regression"
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 # Data
@@ -98,7 +100,7 @@ fit_turkey %>%
 In the code above, the `, data = .` bit is necessary because the pipe usually sends data to the beginning of function brackets. So `mydata %>% lm(lifeExp~year)` would be equivalent to `lm(mydata, lifeExp~year)`. However, this is not an order that `lm()` will accept. `lm()` wants us to specify the variables first (`dependent~explanatory`), and then wants the data these variables are present in. So we have to use the `.` to tell the pipe to send the data to the second argument of `lm()`, not the first.
 
 
-## Accessing the coefficients of linear regression
+# Accessing the coefficients of linear regression
 
 A simple linear regression model will return two coefficients - the intercept and the slope (the second returned value):
 
@@ -140,7 +142,7 @@ fit_turkey$coefficients
 
 Now, the updated results are telling us that in year 1952, the life expectancy in the United Kingdom was 68 years. Note that the slope (0.18) does not change. There was nothing wrong with the original model, and the results were completely correct, just not very useful.
 
-## Accesing other model information `tidy()` and `glance()`
+## Accesing all model information `tidy()` and `glance()`
 
 In the fit_uk and fit_turkey examples above, we were using `fit_uk %>% summary()` to get R to print out a summary of the model. This summary is not, however, in a rectangular shape so we can't easily access the values or put them in a table/use as information on plot labels.
 
@@ -245,6 +247,13 @@ Now. It may seem like R has omitted Turkey but the values for Turkey are actuall
 # Exercise 5 - your R code
 ```
 
+# Linear regression diagnostics
+
+Piping a fit object into the Base R's `plot()` function gives us 4 diagnostic plots:
+
+```{r, fig.width=3.8, fig.height=3}
+fit_turkey %>% plot()
+```
 
 
 # Solutions
@@ -277,6 +286,8 @@ mydata %>%
 ```
 
 Overall, the estimates for Turkey and the UK do not change, but Portugal becomes the reference (alphabetically first) and you need to subtract or add the relevant lines for Turkey and UK to get their intercept values.
+
+
 
 
 

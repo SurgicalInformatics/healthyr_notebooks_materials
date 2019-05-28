@@ -1,5 +1,5 @@
 ---
-title: "Logistic regression"
+title: "07 - Logistic regression"
 output: html_notebook
 ---
 
@@ -120,17 +120,16 @@ We want to find out using logistic regression, which variables predict death fro
 
 ```{r}
 mydata = mydata %>% 
-  mutate(died_melanoma.factor = 
-           fct_collapse(status.factor, 
-                        "Yes" = c("Died", "Died - other causes"),
-                        "No" = "Alive") %>% 
+  mutate(died_melanoma.factor = status.factor %>% 
+           fct_collapse("Yes" = "Died",
+                        "No"  = c("Alive", "Died - other causes")) %>%
            ff_label("Died melanoma")
   )
 
 mydata$died_melanoma.factor %>% levels()
 ```
 
-# Creating categories
+## Creating categories
 
 Now we have set up our outcome variable, we should ensure our predictor variables are prepared too.
 
@@ -155,12 +154,11 @@ mydata = mydata %>%
 mydata$stage.factor %>% levels()
 
 mydata = mydata %>% 
-  mutate(
-    stage.factor = fct_recode(stage.factor, 
-                              "Stage I"   = "[0,0.5]",
-                              "Stage II"  = "(0.5,1]",
-                              "Stage III" = "(1,4]",
-                              "Stage IV"  = "(4,17.4]")
+  mutate(stage.factor = stage.factor %>%
+           fct_recode("Stage I"   = "[0,0.5]",
+                      "Stage II"  = "(0.5,1]",
+                      "Stage III" = "(1,4]",
+                      "Stage IV"  = "(4,17.4]")
   )
 
 mydata$stage.factor %>% levels()
@@ -174,7 +172,7 @@ source(here::here("healthyr_theme.R"))
 
 mydata %>% 
   ggplot(aes(x = sex.factor)) +
-  geom_bar(aes(fill = sex.factor))
+  geom_bar(aes(fill = died_melanoma.factor), position = "fill")
 ```
 
 ```{r, results='hide', warning=F}

@@ -34,7 +34,7 @@ source(here::here("initialise_healthyr.R"))
 
 # Your first R plot (Exercise 2)
 
-After loading some data, you are ready to make your first R plot by runing the code below. We recommend Ctrl+Shift+Enter but you can also use the little green triangle at the top-right corner.
+After loading some data, you are ready to make your first R plot by running the code below. We recommend Ctrl+Shift+Enter but you can also use the little green triangle at the top-right corner.
 
 ```{r}
 # Exercise 2 - run this code (Ctrl+Shift+Enter)
@@ -91,7 +91,7 @@ Plot the number of deaths in Developed and Developing countries for the year 201
 # Plot each bar next to each other (Exercise 5)
 
 1. Copy your R code from Exercise 4.
-2. Change the word "fill" to "doge".
+2. Change the word "fill" to "dodge".
 
 `position="dodge"` puts the different causes next to each rather (the default is `position="stack"`, meaning if you don't include a position, it will be "stack").
 

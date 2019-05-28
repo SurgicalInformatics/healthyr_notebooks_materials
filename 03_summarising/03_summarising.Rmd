@@ -1,12 +1,12 @@
 ---
-title: "Summarising data"
+title: "03 - Summarising data"
 output: html_notebook
 ---
 
 In this session we will get to know our three best friends for summarising data: `group_by()`, `summarise()`, and `mutate()`.
 
 
-# 3.1 Data
+# Data
 
 In Session 2, we used a very condensed version of the Global Burden of Disease data. In this module we are going back to a longer one and we will learn how to summarise it ourselves.
 
@@ -27,9 +27,9 @@ mydata %>%
 ```
 
 
-# 3.2 Tidyverse packages: ggplot2, dplyr, tidyr, etc.
+# Tidyverse packages: ggplot2, dplyr, tidyr, etc.
 
-Most of the functions introduced in this session come from the tidyverse family (http://tidyverse.org/), rather than Base R. Including `library(tidyverse)` in your script loads a list of packages: ggplot2, dplyr, tidry, forcats, etc.
+Most of the functions introduced in this session come from the tidyverse family (http://tidyverse.org/), rather than Base R. Including `library(tidyverse)` in your script loads a list of packages: ggplot2, dplyr, tidyr, forcats, etc.
 
 ![](library_vs_package.png)
 
@@ -39,7 +39,7 @@ library(tidyverse)
 ```
 
 
-# 3.3 Basic functions for summarising data
+# Basic functions for summarising data
 
 You can always pick a column and ask R to give you the `sum()`, `mean()`, `min()`, `max()`, etc. for it:
 
@@ -51,7 +51,7 @@ mydata$deaths_millions %>% mean()
 But if you want to get the total number of deaths for each `year` (or `cause`, or `sex`, whichever grouping variables you have in your dataset) you can use `group_by()` and `summarise()` that make subgroup analysis very convenient and efficient.
 
 
-# 3.4 Subgroup analysis: `group_by()` and `summarise()`
+# Subgroup analysis: `group_by()` and `summarise()`
 
 The `group_by()` function tells R that you are about to perform subgroup analysis on your data. It retains information about your groupings and calculations are applied on each group separately. To go back to summarising the whole dataset again use `ungroup()`. Note that `summarise()` is different to the `summary()` function we used in Session 2.
 
@@ -74,7 +74,7 @@ summary_data2
 * `summary_data1` includes the total number of deaths per year.
 * `summary_data2` includes the number of deaths per cause per year.
 
-## Exercise 3.1
+## Exercise 1
 
 Compare the number of rows (observations) and number of columns (variables) of:
 
@@ -87,14 +87,14 @@ Notice that:
 * `mydata` has 5 variables, whereas the summarised dataframes have 2 and 3. Which variables got dropped? Why?
 
 
-## Exercise 3.2
+## Exercise 2
 
 For each cause, calculate its percentage to total deaths in each year.
 
 Hint: Use `full_join()` on `summary_data1` and `summary_data2`.
 
 ```{r}
-# Exercise 3.2 - your R code:
+# Exercise 2 - your R code:
 
 ```
 
@@ -103,7 +103,7 @@ Hint: Use `full_join()` on `summary_data1` and `summary_data2`.
 
 Mutate works similarly to `summarise()` (as in it respects groupings set with `group_by()`), but it adds a new column into the original data. `summarise()`, on the other hand, condenses the data into a minimal table that only includes the variables specifically asked for.
 
-## Exercise 3.3
+## Exercise 3
 
 Investigate these examples to learn how `summarise()` and `mutate()` differ.
 
@@ -119,33 +119,33 @@ mutate_example
 
 You should see that `mutate()` adds the same number total number (309.4174) to every line in the dataframe. 
 
-## Exercise 3.4 (optional)
+## Exercise 4 (optional)
 
-Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo the above **Exercise** without using a join? 
+Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo **Exercise 2** without using a join? 
 Hint: instead of creating `summary_data1` (total deaths per year) as a separate dataframe which we then merge with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total death per year to each row.
 
 ```{r}
-# Exercise 3.4 - your R code:
+# Exercise 4 - your R code:
 
 ```
 
 
-# 3.5 Wide vs long: `spread()` and `gather()`
+# Wide vs long: `spread()` and `gather()`
 
 ## Wide format
 Although having data in the long format is very convenient for R, for publication tables, it makes sense to spread some of the values out into columns:
 
 ```{r}
 alldata = full_join(summary_data1, summary_data2)
-alldata$percentage = (100*alldata$total_per_cause/alldata$total_per_year) %>% round(0)
 
 alldata %>%
-	mutate(percentage = paste0(round(percentage, 2), "%")) %>% #add a % label and round to 2 decimals
-	select(year, cause, percentage) %>% #only select the variables you want in your final table
+  mutate(percentage = 100*total_per_cause/total_per_year) %>% 
+	mutate(percentage = paste0(round(percentage, 2), "%")) %>% # round and add % label
+	select(year, cause, percentage) %>% #only select vars you want in table
 	spread(cause, percentage)
 ```
 
-## Exercise 3.5
+## Exercise 5
 Calculate the percentage of male and female deaths for each year. Spread it to a human readable form:
 
 Hints:
@@ -201,7 +201,7 @@ result_spread %>%
 ```
 
 
-## Exercise 3.6
+## Exercise 6
 
 Test what happens when you
 
@@ -229,7 +229,7 @@ result_spread %>%
 `-year` was telling R we don't want the year column to be gathered together with Male and Female, we want to keep it as it is.
 
 
-# 3.6 Sorting: `arrange()`
+# Sorting: `arrange()`
 
 To reorder data ascendingly or descendingly, use `arrange()`:
 
@@ -241,108 +241,7 @@ mydata %>%
 ```
 
 
-# 3.7 Factor handling
-
-We talked about the pros and cons of working with factors in Session 2. Overall, they are very useful for the type of analyses involved in medical research. 
-
-## Exercise 3.7
-Explain how and why these two plots are different.
-
-```{r, fig.width=5}
-mydata %>%                                   
-	ggplot(aes(x=year, y=deaths_millions, fill=cause))+  
-	geom_col()
-
-mydata %>% 
-	ggplot(aes(x=factor(year), y=deaths_millions, fill=cause, colour=cause))+ 
-	geom_col()
-```
-
-What about these?
-
-```{r, fig.width=3.5, fig.height=3.5, echo=F}
-ggplot <- function(...) ggplot2::ggplot(...)
-
-mydata %>% 
-	ggplot(aes(x=year, y=deaths_millions, fill=year, colour=year))+ 
-	geom_bar(stat="identity") +
-	theme_bw()
-
-mydata %>% 
-	ggplot(aes(x=year, y=deaths_millions, fill=factor(year), colour=factor(year)))+ 
-	geom_col()  +
-	guides(fill=guide_legend(ncol=3)) +
-	scale_fill_brewer(palette = "Dark2")+
-	scale_colour_brewer(palette = "Dark2") +
-	theme_bw() +
-	theme(legend.position="top")
-```
-
-These illustrate why it might sometimes be useful to use numbers as factors - on the second one we have used `fill=factor(year)` as the fill, so each year gets a distinct colour, rather than a gradual palette.
-
-## `fct_collapse()` - grouping levels together
-
-```{r}
-mydata = mydata %>% 
-  mutate(cause2 = cause %>%
-           fct_collapse("Non-communicable and injuries" = c("Non-communicable diseases", "Injuries")))
-	
-mydata$cause %>% levels()
-mydata$cause2 %>% levels()
-
-```
-
-## `fct_relevel()` - change the order of levels
-
-Another reason to sometimes make a numeric variable into a factor is that we can then reorder it for the plot. `fct_relevel()` brings a factor level to the front:
-
-```{r, fig.width=5}
-mydata = mydata %>% 
-  mutate(year.factor = year %>% 
-           factor() %>% 
-           fct_relevel("2013"))
-
-mydata %>% 
-	ggplot(aes(x=year.factor, y=deaths_millions, fill=cause))+ 
-	geom_col()
-```
-
-## `fct_recode()` - rename levels
-
-```{r}
-mydata$cause %>% 
-	levels()  # levels() lists the factor levels of a column
-
-mydata = mydata %>% 
-  mutate(cause3 = cause %>% 
-           fct_recode("Deaths from injury" = "Injuries"))
-
-mydata$cause3 %>%
-  levels()
-```
-
-## Converting factors to numbers
-
-MUST REMEMBER: factor needs to become `as.character()` before converting to numeric or date!
-(Factors are actually stored as labelled integers (so like number codes), only the function `as.character()` will turn a factor back into a collated format which can then be converted into a number or date.)
-
-## Exercise 3.8
-
-Investigate the two examples converting the `year.factor` variable back to a number.
-
-```{r}
-mydata$year.factor
-
-mydata$year.factor %>%
-	as.numeric()
-
-mydata$year.factor %>%
-	as.character() %>% 
-	as.numeric()
-
-```
-
-## Exercise 3.9
+## Exercise 7
 
 This exercise includes multiple steps, combining all of the above.
 
@@ -350,7 +249,7 @@ This exercise includes multiple steps, combining all of the above.
 * Calculate the total number of deaths in Developed and Developing countries. Hint: use `group_by(location)` and `summarise( Include new column name = sum() here)`.
 * Calculate the total number of deaths in Developed and Developing countries and for men and women. Hint: this is as easy as adding `, sex` to `group_by()`.
 * Filter for 1990.
-* `spread()` the the `location` column.
+* `spread()` the `location` column.
 
 ```{r}
 library(tidyverse)
@@ -374,27 +273,14 @@ You can open a csv file with Excel and copy the table into Word or PowerPoint fo
 
 # Solutions
 
-## Exercise 3.2 solution
+## Exercise 2 solution
 
 ```{r}
-alldata = full_join(summary_data1, summary_data2)
-alldata$percentage = (100*alldata$total_per_cause/alldata$total_per_year) %>% round(0)
-alldata
+alldata = full_join(summary_data1, summary_data2) %>% 
+  mutate(percentage = 100*total_per_cause/total_per_year)
 ```
 
-## Exercise 3.3 solution
-
-```{r}
-summarise_example = mydata %>% 
-	summarise(total_deaths = sum(deaths_millions)) 
-summarise_example
-
-mutate_example = mydata %>% 
-	mutate(total_deaths = sum(deaths_millions))
-mutate_example
-```
-
-## Exercise 3.4 solution
+## Exercise 4 solution
 
 ```{r}
 alldata = mydata %>% 
@@ -406,7 +292,7 @@ alldata = mydata %>%
 alldata
 ```
 
-## Exercise 3.5 solution
+## Exercise 5 solution
 
 ```{r}
 mydata %>% 
@@ -430,7 +316,7 @@ result_spread = alldata %>%
 result_spread
 ```
 
-## Exercise 3.9 solution
+## Exercise 7 solution
 
 ```{r}
 library(tidyverse)

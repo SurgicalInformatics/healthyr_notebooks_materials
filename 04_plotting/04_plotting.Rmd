@@ -1,8 +1,6 @@
 ---
-title: "Different types of plots"
-output:
-  pdf_document: default
-  html_notebook: default
+title: "04 - Different types of plots"
+output: html_notebook
 ---
 
 Before starting a new session, remember to Restart R (top menu, Session - Restart R).
@@ -73,7 +71,7 @@ mydata %>%
 
 Similarly to Exercise 1, follow the step-by-step instructions to transform the initial black lineplot into a colourful 5-panel one.
 
-1. Colour lines by continents: ass `, colour=continent` to `aes()`
+1. Colour lines by continents: add `, colour=continent` to `aes()`
 2. Put the Continents on separate facets: `+ facet_wrap(~continent)`
 3. Make the background white: `+ theme_bw()`
 4. Use a nicer colour scheme: `+ scale_colour_brewer(palette = "Paired")`
@@ -165,9 +163,9 @@ Create a barplot of life Expectancies in European countries (year 2007):
 
 1. Copy the barplot example from above.
 2. Add in a filter for `continent == "Europe"`.
-3. Change `x` to equal country, add in `y` that equals lifeExp (both inside the `aes()`). If you now run the code, you will get an error that says `Error: stat_count() must not be used with a y aesthetic.`. What this is really saying that `geom_bar()` does not want to see a y value - as it just counts up the number of occurances in the data.
+3. Change `x` to equal country, add in `y` that equals lifeExp (both inside the `aes()`). If you now run the code, you will get an error that says `Error: stat_count() must not be used with a y aesthetic.`. What this is really saying that `geom_bar()` does not want to see a y value - as it just counts up the number of occurrences in the data.
 4. Change from `geom_bar()` to `geom_col()`.
-5. Change the `ylab()` to "Life expactancy in 2007".
+5. Change the `ylab()` to "Life expectancy in 2007".
 6. Add `+ coord_flip()`.
 7. Change from `theme_bw()` to `theme_classic()`.
 8. Optional: give the bars a blue outline by adding `colour = "blue", fill = NA` into `geom_col()`.
@@ -252,7 +250,7 @@ mydata %>%
   filter(continent  == "Europe") %>% 
   ggplot(aes(x = fct_reorder(country, lifeExp), y = lifeExp)) +
   geom_col(colour = "blue", fill = NA) + 
-  ylab("Life expactancy in 2007") +
+  ylab("Life expectancy in 2007") +
   xlab("Country") +
   theme_classic() +
   coord_flip()

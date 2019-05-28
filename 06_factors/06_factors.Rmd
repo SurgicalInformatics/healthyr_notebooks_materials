@@ -1,5 +1,5 @@
 ---
-title: "Factors - handling categorical data"
+title: "06 - Factors - handling categorical data"
 output: html_notebook
 ---
 
@@ -17,40 +17,115 @@ mydata = boot::melanoma
 Click on mydata in your Environment and have a look at the values - you'll see that categorical variables are coded as numbers, rather than text. You will need to recode these numbers into proper factors. 
 
 
+# Recoding factors - `fct_recode()`
 
-## Recap on factors
-
-Press F1 on `boot::melanoma` to see its description. Use the information from help to change the numbers (e.g. 0 - female, 1 - male) into proper factors. In the first example we create a new variable called `status.factor` by converting `status` into a factor and then moving "Alive" to the front (the final order is then "Alive", "Died", "Died - other causes"). This means that the odds ratio will be relative to "Alive".
+Press F1 on `boot::melanoma` to see its description. Use the information from help to change the numbers (e.g. 0 - female, 1 - male) into proper factors.
 
 ```{r}
-
 mydata = mydata %>% 
   mutate(status.factor = status %>% 
            factor() %>% 
            fct_recode("Died"  = "1",
                       "Alive" = "2",
-                      "Died - other causes" = "3") %>% 
-           fct_relevel("Alive"))
+                      "Died - other causes" = "3"))
   
 
 mydata = mydata %>%
   mutate(sex.factor = sex %>% 
            factor() %>% 
            fct_recode("Female" = "0",
-                      "Male" = "1"))
+                      "Male"   = "1"))
   
 mydata = mydata %>%
   mutate(ulcer.factor = ulcer %>% 
            factor() %>% 
            fct_recode("Present" = "1",
                       "Absent"  = "0"))
+```
 
-#the cut() function makes a continuous variable into a categorical variable
+
+# Change the order of values within a factor - `fct_relevel()`
+
+While character columns are plotted or ran through statistical tests in an alphabetical order, with factors we can use any order we define
+
+For example, look at the order of levels of `mydata$status_factor` (levels are all the unique and ordered values a factor can have):
+
+```{r}
+mydata$status.factor %>% levels()
+```
+
+The reason "Alive" is currently second, and not alphabetical is, that in the original factor it was number "2". And when we recoded "2" to "Alive", it retained its order. If, however, we want to make comparisons relative to "Alive", we need to move it to the front by using `fct_relevel()`:
+
+
+
+```{r}
+mydata = mydata %>% 
+  mutate(status.factor = status.factor %>%
+           fct_relevel("Alive"))
+```
+
+```{r}
+mydata$status.factor %>% levels()
+```
+
+# Group factor levels together - `fct_collapse()`
+
+`status.factor` currently has 3 levels, but we might want to make it binary so let's group "Died - other causes"' with those "Alive", to give a disease-specific mortality variable:
+
+
+```{r}
+mydata = mydata %>%
+  mutate(status.factor = status.factor %>% 
+	fct_collapse("Alive" = c("Alive", "Died - other causes")))
+```
+
+```{r}
+mydata$status.factor %>% levels()
+```
+
+# Converting a continuous (numeric) variable into a categorical variable - `cut()`
+
+Sometimes we want to cut a numeric variable into categories. This may be when dealing with known tresholds (e.g. it is known that e.g. 5 mg of something is completely harmless but that there is a step change after that). Another reason for cutting a continuous variable into categories is if it doesn't have a linear response to the outcome but we want to use a linear model.
+
+```{r}
 mydata = mydata %>%
   mutate(age.factor = age %>% 
-           cut(breaks = c(4,20,40,60,95), include.lowest=TRUE))
-
+           cut(breaks = c(4,20,40,60,95), include.lowest = TRUE))
 ```
+
+* `include.lowest = TRUE` is a necessary historical quirk of the `cut()` function. Without it, the lowest value (in this case, 4 years old) would get set to NA (missing). Without `include.lowest = TRUE` the lowest level would be "(4,20]" which doesn't include 4 like the `[4` does.
+
+## Exercise
+
+Investigate `mydata$age.factor` and use `fct_recode()` to give it more human readable levels.
+
+```{r}
+mydata$age.factor %>% levels()
+```
+
+For example:
+
+```{r, eval = FALSE}
+mydata = mydata %>%
+  mutate(age.factor = age.factor %>% 
+           fct_recode(" 4 to 20" = "[4,20]"))
+```
+
+```{r, echo = FALSE}
+mydata = mydata %>%
+  mutate(age.factor = age.factor %>% 
+           fct_recode(" 4 to 20" =  "[4,20]",
+                      "21 to 40" = "(20,40]",
+                      "41 to 60" = "(40,60]",
+                      "61 to 95" = "(60,95]"))
+```
+
+Add in more lines to the recode to achieve these levels for `mydata$age.factor:
+
+```{r}
+mydata$age.factor %>% levels()
+```
+
 
 # Save the recoded tibble as an `.rda` file
 
@@ -59,13 +134,13 @@ Previously, we have shown you how to write data back out from R into a spreadshe
 For saving tibbles as `.rda` (R data) files, we do:
 
 ```{r}
-save(mydata, file = here::here("melanoma_recoded_20190510.rda"))
+save(mydata, file = here::here("melanoma_factored_20190531.rda"))
 ```
 
 Remember: `.rda` files are read in using load: 
 
 ```{r}
-load(here::here("melanoma_recoded_20190510.rda"))
+load(here::here("melanoma_factored_20190531.rda"))
 ```
 
 Whereas spreadsheets (or formats from other stats packages) are read:
@@ -76,6 +151,7 @@ read_csv(here::here("global_burden_disease_short.csv"))
 
 
 ## Plotting
+
 Always plot new data first!
 
 ```{r, fig.width=4, fig.height=3}
