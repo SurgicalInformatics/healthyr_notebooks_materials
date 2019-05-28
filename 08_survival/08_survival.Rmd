@@ -23,7 +23,7 @@ library(survival)
 library(survminer)
 
 # Load data
-load(here::here("melanoma_recoded_20190510.rda"))
+load(here::here("melanoma_factored_20190531.rda"))
 
 # Help is here remember
 ?boot::melanoma
