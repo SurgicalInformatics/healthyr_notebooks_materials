@@ -108,7 +108,7 @@ In this example, the outcome variable called `status.factor` describes whether p
 library(tidyverse)
 library(finalfit)
 
-load(here::here("melanoma_factored_20190531.rda"))
+load("melanoma_factored.rda")
 #Load in data from the previous session
 ```
 

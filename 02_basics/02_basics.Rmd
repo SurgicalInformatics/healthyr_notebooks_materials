@@ -231,8 +231,6 @@ new_data_selection = mydata %>%
 
 Like many other types of statistical software, R needs to know what is the variable type of each column. The main types are:
 
-Like many other types of statistical software, R needs to know the variable type of each column. The main types are:
-
 ## Characters
 
 **Characters** (sometimes referred to as *strings* or *character strings*) in R are letters, words, or even whole sentences (an example of this may be free text comments). We can specify these using the `as.character()` function. Characters are displayed in-between `""` (or `''`).
@@ -263,30 +261,30 @@ Click on the blue arrow in front of `mydata` in the Environment tab and check th
 
 # Adding columns to tibbles
 
-If we wanted to add in a new column or variable to our data, we can simply can use the dollar sign '$' to create a new variable inside a pre-existing piece of data. Run these lines and click on `mydata` in the Environment tab to check this worked as expected:
+The function for adding new columns (or making changes to existing ones) to a tibble is called `mutate()`:
 
 ```{r}
-mydata$new = 1
-mydata$new
-
-mydata$new2 = 1:18
-mydata$new2
+mydata %>% 
+  mutate(new = 1:18)
 ```
 
 
 Conversely, if we want to delete a specific variable or column we use `select()` with the dropped variable subtracted.
 
-```{r}
+```{r, error = TRUE}
 mydata %>% 
   select(-new)
 ```
+
+As expected, this return an error. R errors are usually helpful, but in this case, the Error is not very clear.
+The reason for this error is that when we added the new column using `mutate(new = 1:18)` it got printer, but not saved back to the Environment, because we didn't use the assignment arrow in front of the while tibble. Change the code in the chunk just above to include `mydata = mydata %>%`, run it, check the tibble from the Environment tab to make sure the column `new` exist. Then try removing it again with the `select()` function.
 
 # Exercise 5
 
 If you click on mydata in the Environment tab after running the code chunk with `select(-new)`, you will see that the variable is still included. That's because we didn't use the assignment operator when performing the select. So it got printed for us to see, but not saved to the Environment.
 
 1. Copy the example above and add in `mydata = ` on the first line.
-2. Then drop both `new` as well as `new2` from mydata.
+2. Then drop both `new` `mydata.`
 
 
 ```{r}
@@ -537,9 +535,9 @@ mydata_year2000 = mydata %>%
 
 ## Exercise 5 solution
 
-```{r}
+```{r, eval = FALSE}
 mydata = mydata %>% 
-  select(-new, -new2)
+  select(-new)
 ```
 
 
