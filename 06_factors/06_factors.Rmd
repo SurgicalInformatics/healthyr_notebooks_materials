@@ -119,6 +119,7 @@ mydata = mydata %>%
                       "41 to 60" = "(40,60]",
                       "61 to 95" = "(60,95]"))
 ```
+Note: if you are running this notebook interactively (by clicking `ctrl+enter` in each chunk of code) you might see a warning message here telling you that there is an unknown level in `f`. All this means is that because you renamed the level the first time you used `fct_recode` it can't find the original name (`[4,20]`). In this case we can safely ignore the message because we have already changed the value. The message is usually helpful if you accidentally mistype a factor level so that you can then change it.
 
 Add in more lines to the recode to achieve these levels for `mydata$age.factor:
 
@@ -134,19 +135,19 @@ Previously, we have shown you how to write data back out from R into a spreadshe
 For saving tibbles as `.rda` (R data) files, we do:
 
 ```{r}
-save(mydata, file = here::here("melanoma_factored_20190531.rda"))
+save(mydata, file = here::here("melanoma_factored.rda"))
 ```
 
 Remember: `.rda` files are read in using load: 
 
 ```{r}
-load(here::here("melanoma_factored_20190531.rda"))
+load(here::here("melanoma_factored.rda"))
 ```
 
 Whereas spreadsheets (or formats from other stats packages) are read:
 
 ```{r, eval = FALSE}
-read_csv(here::here("global_burden_disease_short.csv"))
+#read_csv(here::here("global_burden_disease_short.csv"))
 ```
 
 
@@ -184,15 +185,6 @@ mydata %>%
 ## Analysis
 
 ### Using base R
-
-First lets group together those that 'died of another cause' with those 'alive', to give a disease-specific mortality variable (`fct_collapse` will help us) . 
-```{r}
-
-mydata = mydata %>%
-  mutate(status.factor = status.factor %>% 
-	fct_collapse("Alive" = c("Alive", "Died - other causes")))
-
-```
 
 Let's test mortality against sex.
 
@@ -342,7 +334,7 @@ Try changing the table to show `median` and `interquartile range` instead of mea
 
 
 ## Exercise 6.2
-By changing one and only one line in the following block create firstly a new table showing the breakdown of `status.factor` by age and secondly the breakdown of `status.factor` by sex:
+By changing one and only one line in the following block create a new table showing the breakdown of `status.factor` by age and secondly the breakdown of `status.factor` by sex:
 
 ```{r, eval=FALSE}
 
@@ -361,7 +353,7 @@ mydata %>%
 
 
 ## Exercise 6.3
-Now produce these tables using the `summary_factorlist` function from the `library(finalfit)` package. 
+Now produce the tables from 6.3 using the `summary_factorlist` function from the `library(finalfit)` package. 
 
 
 ## Exercise 6.4

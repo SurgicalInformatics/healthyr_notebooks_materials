@@ -276,7 +276,7 @@ mydata %>%
   select(-new)
 ```
 
-As expected, this return an error. R errors are usually helpful, but in this case, the Error is not very clear.
+As expected, this returns an error. R errors are usually helpful, but in this case, the Error is not very clear.
 The reason for this error is that when we added the new column using `mutate(new = 1:18)` it got printer, but not saved back to the Environment, because we didn't use the assignment arrow in front of the while tibble. Change the code in the chunk just above to include `mydata = mydata %>%`, run it, check the tibble from the Environment tab to make sure the column `new` exist. Then try removing it again with the `select()` function.
 
 # Exercise 5
@@ -284,7 +284,7 @@ The reason for this error is that when we added the new column using `mutate(new
 If you click on mydata in the Environment tab after running the code chunk with `select(-new)`, you will see that the variable is still included. That's because we didn't use the assignment operator when performing the select. So it got printed for us to see, but not saved to the Environment.
 
 1. Copy the example above and add in `mydata = ` on the first line.
-2. Then drop both `new` `mydata.`
+2. Then after creating it, drop the column `new` from `mydata` (using the `select()` function).
 
 
 ```{r}

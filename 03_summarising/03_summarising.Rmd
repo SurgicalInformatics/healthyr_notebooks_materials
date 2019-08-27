@@ -1,6 +1,8 @@
 ---
 title: "03 - Summarising data"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 In this session we will get to know our three best friends for summarising data: `group_by()`, `summarise()`, and `mutate()`.
@@ -84,7 +86,7 @@ Compare the number of rows (observations) and number of columns (variables) of:
 
 Notice that:
 * `summary_data2` has exactly 3 times as many rows as `summary_data1`. Why?
-* `mydata` has 5 variables, whereas the summarised dataframes have 2 and 3. Which variables got dropped? Why?
+* `mydata` has 5 variables, whereas the summarised tibbles have 2 and 3. Which variables got dropped? Why?
 
 
 ## Exercise 2
@@ -117,12 +119,12 @@ mutate_example = mydata %>%
 mutate_example
 ```
 
-You should see that `mutate()` adds the same number total number (309.4174) to every line in the dataframe. 
+You should see that `mutate()` adds the same number total number (309.4174) to every line in the tibble. 
 
 ## Exercise 4 (optional)
 
 Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo **Exercise 2** without using a join? 
-Hint: instead of creating `summary_data1` (total deaths per year) as a separate dataframe which we then merge with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total death per year to each row.
+Hint: instead of creating `summary_data1` (total deaths per year) as a separate tibble which we then join with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total death per year to each row.
 
 ```{r}
 # Exercise 4 - your R code:
@@ -151,7 +153,7 @@ Calculate the percentage of male and female deaths for each year. Spread it to a
 Hints:
 
 * create `summary_data3` that includes a variable called `total_per_sex`
-* merge `summary_data1` and `summary_data3` into a new data frame
+* join `summary_data1` and `summary_data3` into a new tibble
 * calculate the percentage of `total_per_sex` to `total_per_year`
 * round, add % labels
 * spread

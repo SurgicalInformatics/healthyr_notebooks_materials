@@ -108,21 +108,19 @@ In this example, the outcome variable called `status.factor` describes whether p
 library(tidyverse)
 library(finalfit)
 
-load("melanoma_factored.rda")
+load(here::here("melanoma_factored.rda"))
 #Load in data from the previous session
 ```
 
 
 Here `status.factor` has three levels: `Died`, `Died - other causes` and `Alive`. This is not useful for us, as logistic regression requires outcomes to be binary.
 
-We want to find out using logistic regression, which variables predict death from Melanoma. So we should create a new factor variable, `died_melanoma.factor`. This will have two outcomes, `Yes` (did die from melanoma) or `No` (did not die from melanoma).
+We want to find out using logistic regression, which variables predict death from Melanoma. So we need a factor variable, `died_melanoma.factor`. This will have two outcomes, `Yes` (did die from melanoma) or `No` (did not die from melanoma). We created the variable in the last session but this time we can add a label to the factor so that `finalfit` will use that label for tables and plots:
 
 
 ```{r}
 mydata = mydata %>% 
   mutate(died_melanoma.factor = status.factor %>% 
-           fct_collapse("Yes" = "Died",
-                        "No"  = c("Alive", "Died - other causes")) %>%
            ff_label("Died melanoma")
   )
 
@@ -230,7 +228,7 @@ Therefore, to sort that out we should exponentiate the output of the model! The 
 exp(model1$coefficients)
 ```
 
-This gives us an odds ratio of 2.03 for males. That is to say, males are twice as likely to die from melanoma than females.
+This gives us an odds ratio of 2.03 for males. That is to say, males have double the odds of dying from melanoma than females.
 
 Now a confidence interval might be handy. As this will be the logarithm of the confidence interval, we should exponentiate it to make it understandable.
 
@@ -248,11 +246,6 @@ Repeat this for all the variables contained within the data, particulary:
 
 `stage.factor`, `age`, `ulcer.factor`, `thickness` and `age.factor`.
 
-Write their odds ratios and 95% confidence intervals down for the next section!
-
-Congratulations on building your first regression model in R!
-
-We will show an easier way to get these results below. 
 
 ```{r}
 # Exercise - your R code here
@@ -264,6 +257,11 @@ exp(model2$coefficients)
 exp(confint(model2))
 ```
 
+
+
+Write their odds ratios and 95% confidence intervals down for the next section!
+
+We will show an easier way to get these results below. 
 
 # finalfit package
 
