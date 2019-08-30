@@ -75,7 +75,7 @@ If you already have LaTex installed on your computer, the `tinytex::install_tiny
 6. Browse to find your `healthyr` folder, then `Create Project`.
 7. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`.
 
-# RStudio Cloud
+# Alternative: Use RStudio Cloud
 
 RStudio cloud is a free online platform for learning R. It saves you from installing R and RStudio yourself, but it does mean you need an internet connection to access it via a web browser.
 
@@ -99,7 +99,7 @@ remotes::install_github("thomasp85/patchwork")
 
 6. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`.
 
-## Alternative: RStudio Cloud create a new space
+# Alternative: Create a new shared space on RStudio cloud
 
 If you want to help your friends to learn R, then you can set up a shared space on RStudio Cloud.
 
@@ -111,7 +111,7 @@ If you want to help your friends to learn R, then you can set up a shared space 
 6. After sucefully setting the Base project and testing that a new project has all the files etc you should make your first project private again (Settings, Access, Who can view, You). Otherwise people will get confused and start working directly 
 
 
-# Alternative: RStudio Cloud join an existing space
+# Alternative: Join an existing space on RStudio Cloud
 
 1.	Get in invite to a an RStudio Cloud space where these materials are already set up
 2.	Create an account or Log in with Google or GitHub
