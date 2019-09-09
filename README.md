@@ -1,5 +1,6 @@
 # Getting started:
 
+Follow these steps to install everything on your own computer (for offline use). Alternatively, get started quicker by [Using RStudio Cloud](#alternative-use-rstudio-cloud).
 ## 1. R
 
 Download and install the latest version of R from:
