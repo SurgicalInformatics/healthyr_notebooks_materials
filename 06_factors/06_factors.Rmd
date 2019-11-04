@@ -229,7 +229,6 @@ mydata %>%
 
 ```
 
-----
 
 `finalfit` also works with continuous variables
 
