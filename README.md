@@ -29,18 +29,17 @@ https://www.rstudio.com/products/rstudio/download/#download
 
 healthyr_notebooks = c("tidyverse", "boot", "finalfit", "flexdashboard",
 "gapminder", "here", "kableExtra", "knitr", "remotes",
-"rmarkdown", "shiny", "survminer", "tinytex")
+"rmarkdown", "shiny", "survminer", "tinytex", "patchwork")
 install.packages(healthyr_notebooks)
 
 ```
 
 ### 3.2 Then Restart R
 
-## 3.3 to then run these two lines (same as before, copy-paste to the Console):
+## 3.3 to then run these this line (same as before, copy-paste to the Console):
 
 ```{r}
 
-remotes::install_github("thomasp85/patchwork")
 tinytex::install_tinytex()
 
 ```
