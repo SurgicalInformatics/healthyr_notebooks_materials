@@ -9,10 +9,9 @@ We will be using the same gapminder dataset as in the plotting session.
 
 ```{r, message=F}
 library(tidyverse)
-library(gapminder) # dataset
 library(broom)     # transforms statistical output to tibbles
 
-mydata = gapminder
+mydata = read_csv(here::here("gapminder_data.csv"))
 
 ```
 

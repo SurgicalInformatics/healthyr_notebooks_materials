@@ -10,7 +10,11 @@ We are now changing to a new dataset: melanoma. Remember to Restart your R sessi
 library(tidyverse)
 library(finalfit)
 library(broom)
-mydata = boot::melanoma
+
+mydata = boot::melanoma # cleverly loads it from the package - as it's an example dataset included with the boot package
+
+# your data usually arrives in a csv file:
+mydata = read_csv(here::here("melanoma_data.csv"))
 
 ```
 

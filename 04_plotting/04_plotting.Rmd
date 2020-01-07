@@ -6,17 +6,20 @@ output: html_notebook
 Before starting a new session, remember to Restart R (top menu, Session - Restart R).
 
 # Data
+
 We will be using the gapminder dataset:
 
 ```{r, message=F}
 library(tidyverse)
 library(gapminder)
 
-mydata = gapminder
+mydata = read_csv(here::here("gapminder_data.csv"))
 
 mydata %>% summary()
 mydata$year %>% unique()
 ```
+
+The dataset was saved
 
 # Scatter plots/bubble plots - `geom_point()`
 
