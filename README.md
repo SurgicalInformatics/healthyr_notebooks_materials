@@ -7,9 +7,15 @@ Download and install the latest version of R from:
 
 https://www.stats.bris.ac.uk/R/
 
-*Windows*: `Download R for Windows` - `base` - `Download R 3.6.0 for Windows`
+*Mac*: `Download R for (Mac) OS X` - `R-3.6.X.pkg`
 
-*Mac*: `Download R for (Mac) OS X` - `R-3.6.0.pkg`
+*Windows*: `Download R for Windows` - `base`
+
+
+### + RTools (Windows only)
+
+Windows computers also need to install R Tools (which will enable some of the extensions we use, Mac's get this automatically):
+Latest Recommended from  https://cran.r-project.org/bin/windows/Rtools
 
 ## 2. RStudio
 
