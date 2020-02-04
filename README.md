@@ -1,6 +1,15 @@
 # Getting started:
 
-Follow these steps to install everything on your own computer (for offline use). Alternatively, get started quicker by [Using RStudio Cloud](#alternative-use-rstudio-cloud).
+Create a free RStudio Cloud account and take a copy of the HealthyR Notebooks project following this link:
+https://rstudio.cloud/project/909351
+
+1. Create an account
+2. Click on "Take a permanent copy" at https://rstudio.cloud/project/909351
+3. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`
+
+
+### Alternatively, for offline use, follow the steps below to install everything on your own computer:
+
 ## 1. R
 
 Download and install the latest version of R from:
@@ -65,13 +74,10 @@ tinytex:::is_tinytex()
 
 ### Troubleshooting 3.3
 
-1. ~"can't find remotes": try doing step 3.2 (restart) again.
-We only just installed `remotes::` in *3.1* so RStudio needs a restart before we can start using it.
-
-2. ~"TeX failed, you already have a TeX distribution...". 
+~"TeX failed, you already have a TeX distribution...". 
 If you already have LaTex installed on your computer, the `tinytex::install_tinytex()` one is not necessary and might not work.  This is fine, there is no harm in copy-pasting in anyway if you are not sure.
 
-## 4. Download course materials
+## 4. Set up course materials
 
 1. Click on `Clone or download` then `Download ZIP` (top-right of this GitHub page)
 2. Unzip the folder and rename it to just healthyr (so from `healthyr_notebooks_materials-master` to `healthyr`).
@@ -80,47 +86,3 @@ If you already have LaTex installed on your computer, the `tinytex::install_tiny
 5. Select "Existing Directory".
 6. Browse to find your `healthyr` folder, then `Create Project`.
 7. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`.
-
-# Alternative: Use RStudio Cloud
-
-RStudio cloud is a free online platform for learning R. It saves you from installing R and RStudio yourself, but it does mean you need an internet connection to access it via a web browser.
-
-1. Create an account on RStudio cloud (these replace steps 1. and 2. from *Getting Started*).
-2. Go to "Your workspace"
-3. Click on the selection arrow next to "New project" and select "New Project from Git Repo" (this reaplaces step 4. of *Getting started*)
-4. After the project has loaded, copy-paste the lines below into the Console and press Enter:
-
-```
-healthyr_notebooks = c("tidyverse", "boot", "finalfit", "flexdashboard",
-"gapminder", "here", "kableExtra", "knitr", "remotes", "rmarkdown",
-"shiny", "survminer", "tinytex")
-install.packages(healthyr_notebooks)
-```
-
-5. Then Restart R (top menu Session - Restart R) to then run this line (same as before, copy-paste to the Console):
-
-```
-remotes::install_github("thomasp85/patchwork")
-```
-
-6. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`.
-
-# Alternative: Create a new shared space on RStudio cloud
-
-If you want to help your friends to learn R, then you can set up a shared space on RStudio Cloud.
-
-1. Create a new space (click on `+ New Space`)
-2. Create a new project following the RStudio Cloud instructions 3., 4., 5. from above
-3. Find "Access" (Settings), set "Who can view this project" to Everyone (default is You, don't worry this is still everyone in the private space)
-4. Set it as the Base project of this space (https://rstudio.cloud/learn/guide)
-5. Invite people to join your space - any new projects they create will automatically get the files and packages of the Base project
-6. After sucefully setting the Base project and testing that a new project has all the files etc you should make your first project private again (Settings, Access, Who can view, You). Otherwise people will get confused and start working directly 
-
-
-# Alternative: Join an existing space on RStudio Cloud
-
-1.	Get in invite to a an RStudio Cloud space where these materials are already set up
-2.	Create an account or Log in with Google or GitHub
-3.	Click on “Join Space”
-4.	Click on “Projects” at the top
-5.	Click on “New Project” and wait while “Deploying project” completes
