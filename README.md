@@ -51,7 +51,7 @@ install.packages(healthyr_notebooks)
 
 ### 3.2 Then Restart R
 
-## 3.3 to then run these this line (same as before, copy-paste to the Console):
+## 3.3 to then run this this line (same as before, copy-paste to the Console):
 
 ```{r}
 
