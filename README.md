@@ -32,9 +32,6 @@ Then download and install RStudio:
 
 https://www.rstudio.com/products/rstudio/download/#download
 
-*Windows*: `RStudio 1.2.1335 - Windows 7+`
-
-*Mac*: `RStudio 1.2.1335 - Mac OS X 10.12+ (64-bit)`
 
 ## 3. R packages
 
