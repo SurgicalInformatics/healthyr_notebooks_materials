@@ -72,7 +72,7 @@ If you already have LaTex installed on your computer, the `tinytex::install_tiny
 
 `WARNING: Rtools is required to build R packages, but is not currently installed.`
 
-Some packages needa little extra help on installation. This can happen if the package developer hasn't uploaded the Windows binaries to CRAN, or if you're installing directly from GitHub. Mac's have this capability built in, whereas Windows user will have to install RTools before trying to install package again: https://cran.r-project.org/bin/windows/Rtools
+Some packages need a little extra help on installation. This can happen if the package developer hasn't uploaded the Windows binaries to CRAN, or if you're installing directly from GitHub. Mac's have this capability built in, whereas Windows users will have to install RTools before trying to install package again: https://cran.r-project.org/bin/windows/Rtools
 
 ## 4. Set up course materials
 
