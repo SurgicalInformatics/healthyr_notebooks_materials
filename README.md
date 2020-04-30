@@ -21,11 +21,6 @@ https://www.stats.bris.ac.uk/R/
 *Windows*: `Download R for Windows` - `base`
 
 
-### + RTools (Windows only)
-
-Windows computers also need to install R Tools (which will enable some of the extensions we use, Mac's get this automatically):
-Latest Recommended from  https://cran.r-project.org/bin/windows/Rtools
-
 ## 2. RStudio
 
 Then download and install RStudio:
@@ -69,10 +64,15 @@ tinytex:::is_tinytex()
 
 ```
 
-### Troubleshooting 3.3
+### Troubleshooting
 
-~"TeX failed, you already have a TeX distribution...". 
+`~"TeX failed, you already have a TeX distribution...".`
 If you already have LaTex installed on your computer, the `tinytex::install_tinytex()` one is not necessary and might not work.  This is fine, there is no harm in copy-pasting in anyway if you are not sure.
+
+
+`WARNING: Rtools is required to build R packages, but is not currently installed.`
+
+Some packages needa little extra help on installation. This can happen if the package developer hasn't uploaded the Windows binaries to CRAN, or if you're installing directly from GitHub. Mac's have this capability built in, whereas Windows user will have to install RTools before trying to install package again: https://cran.r-project.org/bin/windows/Rtools
 
 ## 4. Set up course materials
 
