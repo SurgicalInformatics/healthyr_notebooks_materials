@@ -315,7 +315,7 @@ mydata %>%
   mutate(percentage = round(100*n/total, 1)) %>% 
   mutate(count_perc = paste0(n, " (", percentage, ")")) %>% 
   select(-total, -n, -percentage) %>% 
-  spread(status.factor, count_perc)
+  pivot_wider(names_from = status.factor, values_from = count_perc)
 
 ```
 
@@ -348,7 +348,7 @@ mydata %>%
   mutate(percentage = round(100*n/total, 1)) %>% 
   mutate(count_perc = paste0(n, " (", percentage, ")")) %>% 
   select(-total, -n, -percentage) %>% 
-  spread(status.factor, count_perc)
+  pivot_wider(names_from = status.factor, values_from = count_perc)
 
 ```
 
