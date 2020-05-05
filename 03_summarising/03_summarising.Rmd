@@ -1,8 +1,6 @@
 ---
 title: "03 - Summarising data"
-output:
-  pdf_document: default
-  html_notebook: default
+output: html_notebook: default
 ---
 
 In this session we will get to know our three best friends for summarising data: `group_by()`, `summarise()`, and `mutate()`.
@@ -132,7 +130,7 @@ Hint: instead of creating `summary_data1` (total deaths per year) as a separate 
 ```
 
 
-# Wide vs long: `spread()` and `gather()`
+# Wide vs long: `pivot_wider()` and `pivot_longer()`
 
 ## Wide format
 Although having data in the long format is very convenient for R, for publication tables, it makes sense to spread some of the values out into columns:
@@ -144,38 +142,34 @@ alldata %>%
   mutate(percentage = 100*total_per_cause/total_per_year) %>% 
 	mutate(percentage = paste0(round(percentage, 2), "%")) %>% # round and add % label
 	select(year, cause, percentage) %>% #only select vars you want in table
-	spread(cause, percentage)
+	pivot_wider(names_from = cause, values_from = percentage)
 ```
 
 ## Exercise 5
-Calculate the percentage of male and female deaths for each year. Spread it to a human readable form:
+Calculate the percentage of male and female deaths for each year. Then use `pivot_wider()` to put the values into columns. This makes it more human-readable.
 
 Hints:
 
 * create `summary_data3` that includes a variable called `total_per_sex`
 * join `summary_data1` and `summary_data3` into a new tibble
 * calculate the percentage of `total_per_sex` to `total_per_year`
-* round, add % labels
-* spread
-* save your object as `result_spread`
+* round, add % labels (or use `percent()` by including `library(scales)`)
+* then use `pivot_wider()`
+* save your object as `result_wider`
 
 
 Solution: 
 ```{r}
-# Exercise 3.5 - your R code:
+# Exercise 5 - your R code:
 
 ```
 
 ## Long format
 
-The opposite of `spread()` is `gather()`:
+The inverse of `pivot_wider()` is `pivot_longer()`. Be aware that making data longer is harder to get right at first. Don't be discouraged if `pivot_longer()` takes a few tries and tests. We find it harder to do as well.
 
-* The first argument is a name for the column that will include columns gathered from the wide columns (in this example, `Male` and `Female` are gathered into `sex`).
-* The second argument is a name for the column that will include the values from the wide-format columns (the values from `Male` and `Female` are gathered into `percentage`).
-* Any columns that already are condensed (e.g. year was in one column, not spread out like in the pre-course example) must be included with a negative (i.e. -year).
-
+The code here is the solution to Exercise 5 as we need something wider to be able to make it longer again:
 ```{r}
-# Result from above
 mydata %>% 
 	group_by(year) %>% 
 	summarise(total_per_year = sum(deaths_millions)) ->
@@ -188,48 +182,78 @@ mydata %>%
 
 alldata = full_join(summary_data1, summary_data3)
 
-result_spread = alldata %>% 
+result_wider = alldata %>% 
   mutate(percentage = round(100*total_per_sex/total_per_year, 0)) %>%
   mutate(percentage = paste0(percentage, "%")) %>% 
   select(year, sex, percentage) %>% 
-  spread(sex, percentage)
+  pivot_wider(names_from = sex, values_from = percentage)
 
-result_spread
+result_wider
 ```
+
+* After piping in the data, the next argument to `pivot_longer()` indicates which columns should be put together into the new longer variable. Since `result_wider` is a very small example tibble, we can just specify the column we don't want pulled together - `year`. In `pivot_longer()`, `-year` means we want to put everything but year into the new longer columns.
+
+* We then add `names_to = "sex", values_to = "percentage"` to give the new columns names. These are quoted as they are new names we are assigning, feel free to experiment with changing "sex" or "percentage" to anything else here, even your name. It's just a new name you are choosing for the new columns. Whereas in the `pivot_wider()` example above, sex and percentage were not quoted, as they were referring to existing columns within the dataset, not new names we are assigning.
 
 ```{r}
-result_spread %>% 
-  gather(sex, percentage, -year)
+# Exercise 6 - modify this:
+result_wider %>% 
+  pivot_longer(-year, names_to = "sex", values_to = "percentage")
 ```
-
 
 ## Exercise 6
 
-Test what happens when you
-
-* Change the order of sex and percentage:
+The arguments `names_to` and `values_to` are not strictly necessary, if you omit them the columns will get assigned defaults - "name" and "value". Delete the arguments `names_to = "sex", values_to = "percentage"` from the code below, so the function becomes `pivot_longer(-year)` to see convince yourself the previous sentence holds true.
 
 ```{r}
-result_spread %>% 
-  gather(percentage, sex, -year)
+result_wider %>% 
+  pivot_longer(-year, names_to = "sex", values_to = "percentage")
 ```
 
-Turns out in the above example, `percentage` and `sex` were just label you assigned to the gathered columns. It could be anything, e.g.:
+### Selecting columns for pivot_longer, select helpers
+
+If your tibble has many columns, you'll need to list the ones you do want to collect. For that, you will have to use a select helper. You can find the list of select helpers by typing "select helpers" into the Help tab in RStudio and then clicking on the page listed as "tidyselect::select_helpers		Select helpers". Alternatively, search online for examples. They can be extremely helpful and powerful.
+
+How we usually get started with a new `pivot_longer()` line is that we figure out the select helper for it first by trialling it inside `select()`.
+
+For example, the previous example would be this first:
 
 ```{r}
-result_spread %>% 
-  gather(`look-I-gathered-sex`, `values-Are-Here`, -year)
+result_wider %>% 
+  select(-year)
 ```
 
-* What happens if we omit `-year`:
+This shows us the columns that `pivot_longer()` will work on.
+
+Let's figure out which select helper will get us the two columns: Male and Female. If we were just using `select()` and not intending to change it to `pivot_longer()`, we can of course just do:
 
 ```{r}
-result_spread %>% 
-  gather(sex, percentage)
+result_wider %>% 
+  select(Female, Male)
 ```
 
-`-year` was telling R we don't want the year column to be gathered together with Male and Female, we want to keep it as it is.
+But `pivot_longer()` will require the specification in a single argument, whereas that comma between them makes them two arguments. We can tie them into a single argument using `c()`:
 
+```{r}
+result_wider %>% 
+  pivot_longer(c(Female, Male))
+```
+
+Or if you had many more than just 2 columns to be combined, you should use a select helper. They don't make a lot of sense with this very simple example, but have a look at the select helpers examples in the Help tab and see how these could translate to the data you are dealing with. For example, if the columns you want to combine all start with the same prefix, use `starts_with()`. If you are familiar with regular expressions, use `matches()`, etc.
+
+One final select or pivot_longer() tip to show here is the use of the semicolon. This selects all columns `from:to`.
+
+```{r}
+# a new example tibble:
+tibble(x1 = "one", x2 = "more", x3 = "cool", x4 = "example", x5 = "this", x6 = "is")
+```
+
+Selecting columns from `x3` to `x6`:
+
+```{r}
+tibble(x1 = "one", x2 = "more", x3 = "cool", x4 = "example", x5 = "this", x6 = "is") %>% 
+  select(x3:x6)
+```
 
 # Sorting: `arrange()`
 
@@ -251,13 +275,13 @@ This exercise includes multiple steps, combining all of the above.
 * Calculate the total number of deaths in Developed and Developing countries. Hint: use `group_by(location)` and `summarise( Include new column name = sum() here)`.
 * Calculate the total number of deaths in Developed and Developing countries and for men and women. Hint: this is as easy as adding `, sex` to `group_by()`.
 * Filter for 1990.
-* `spread()` the `location` column.
+* `pivot_wider()` using `location` column as `names_from` and and your new calculated column as `values_from.`
 
 ```{r}
 library(tidyverse)
 load(here::here("global_burden_disease_long.rda"))
 
-# Exercise 3.9 - your R code:
+# Exercise 7 - your R code:
 
 ```
 
@@ -266,7 +290,7 @@ load(here::here("global_burden_disease_long.rda"))
 To save as a csv file use `write_csv()`:
 
 ```{r warning=FALSE}
-write_csv(result_spread, "gbd_genders_summarised.csv")
+write_csv(result_wider, "gbd_genders_summarised.csv")
 ```
 
 You can open a csv file with Excel and copy the table into Word or PowerPoint for presenting.
@@ -309,14 +333,22 @@ mydata %>%
 
 alldata = full_join(summary_data1, summary_data3)
 
-result_spread = alldata %>% 
+result_wider = alldata %>% 
   mutate(percentage = round(100*total_per_sex/total_per_year, 0)) %>%
   mutate(percentage = paste0(percentage, "%")) %>% 
   select(year, sex, percentage) %>% 
-  spread(sex, percentage)
+  pivot_wider(names_from = sex, values_from = percentage)
 
-result_spread
+result_wider
 ```
+
+## Exercise 6 solution
+
+```{r}
+result_wider %>% 
+  pivot_longer(-year)
+```
+
 
 ## Exercise 7 solution
 
@@ -328,5 +360,5 @@ mydata %>%
   filter(year == 1990) %>% 
   group_by(location, sex) %>% 
   summarise(total_deaths = sum(deaths_millions)) %>% 
-  spread(location, total_deaths)
+  pivot_wider(names_from = location, values_from = total_deaths)
 ```

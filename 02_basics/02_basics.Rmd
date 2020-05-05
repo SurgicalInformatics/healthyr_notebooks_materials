@@ -296,7 +296,7 @@ Troubleshooting Exercise 5:
 
 * `Error in -x : invalid argument to unary operator` is R's obtuse way of saying "I can't find -x" (which in our case is `-new`). You will see this if you try to run the chunk twice - so trying to drop a column that has already been dropped so does not exist any more.
 
-* If you misspell a variable name when using select positively (e.g. to only select one variable, such as `mydata %>% select(cuase)`), it will give a much better error of `Error in .f(.x[[i]], ...) : object 'cuase' not found`.
+* If you misspell a variable name when using select positively (e.g. to only select one variable, such as `mydata %>% select(cause)`), it will give a much better error of `Error in .f(.x[[i]], ...) : object 'cuase' not found`.
 
 
 # Calculated variables
