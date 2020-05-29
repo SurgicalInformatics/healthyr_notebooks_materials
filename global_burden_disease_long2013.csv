@@ -1,0 +1,13 @@
+location,cause,sex,year,deaths_millions
+Developing,Non-communicable diseases,Male,2013,14.783962076984
+Developing,Non-communicable diseases,Female,2013,11.912061913836
+Developed,Non-communicable diseases,Male,2013,5.6676594658342
+Developed,Non-communicable diseases,Female,2013,5.903513166533901
+Developing,Injuries,Male,2013,2.6913010365670003
+Developing,Injuries,Female,2013,1.2781935908641
+Developed,Injuries,Male,2013,0.54931978260184
+Developed,Injuries,Female,2013,0.26811444932062
+Developing,Communicable diseases,Male,2013,5.859951795076499
+Developing,Communicable diseases,Female,2013,5.2486669596218
+Developed,Communicable diseases,Male,2013,0.36659859083026003
+Developed,Communicable diseases,Female,2013,0.33442228067357

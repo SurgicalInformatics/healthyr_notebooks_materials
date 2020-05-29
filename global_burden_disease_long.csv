@@ -1,0 +1,73 @@
+location,cause,sex,year,deaths_millions
+Developing,Non-communicable diseases,Male,1990,9.2277141099115
+Developing,Non-communicable diseases,Female,1990,8.0242455058722
+Developed,Non-communicable diseases,Male,1990,4.7692902281412
+Developed,Non-communicable diseases,Female,1990,4.9722430980531
+Developing,Non-communicable diseases,Male,1995,10.265991676242999
+Developing,Non-communicable diseases,Female,1995,8.8571937349929
+Developed,Non-communicable diseases,Male,1995,5.2905906490166
+Developed,Non-communicable diseases,Female,1995,5.4832932390305
+Developing,Non-communicable diseases,Male,2000,11.16628742482
+Developing,Non-communicable diseases,Female,2000,9.6112805098764
+Developed,Non-communicable diseases,Male,2000,5.2716978351806
+Developed,Non-communicable diseases,Female,2000,5.4726679208769
+Developing,Non-communicable diseases,Male,2005,12.175076401649001
+Developing,Non-communicable diseases,Female,2005,10.337200484561
+Developed,Non-communicable diseases,Male,2005,5.4896065094633
+Developed,Non-communicable diseases,Female,2005,5.6359311111737
+Developing,Non-communicable diseases,Male,2010,13.653052061649
+Developing,Non-communicable diseases,Female,2010,11.327465186635001
+Developed,Non-communicable diseases,Male,2010,5.524394131128201
+Developed,Non-communicable diseases,Female,2010,5.754639034385001
+Developing,Non-communicable diseases,Male,2013,14.783962076984
+Developing,Non-communicable diseases,Female,2013,11.912061913836
+Developed,Non-communicable diseases,Male,2013,5.6676594658342
+Developed,Non-communicable diseases,Female,2013,5.903513166533901
+Developing,Injuries,Male,1990,2.2039625397438
+Developing,Injuries,Female,1990,1.2698308177014999
+Developed,Injuries,Male,1990,0.59411836053943
+Developed,Injuries,Female,1990,0.25787590523263
+Developing,Injuries,Male,1995,2.3374585260385
+Developing,Injuries,Female,1995,1.2875264490371
+Developed,Injuries,Male,1995,0.72421956408675
+Developed,Injuries,Female,1995,0.29066443815326
+Developing,Injuries,Male,2000,2.510691978388
+Developing,Injuries,Female,2000,1.3223659837688
+Developed,Injuries,Male,2000,0.6671556841641401
+Developed,Injuries,Female,2000,0.27663853388478
+Developing,Injuries,Male,2005,2.6085147463093
+Developing,Injuries,Female,2005,1.2872311203027
+Developed,Injuries,Male,2005,0.6568597467908499
+Developed,Injuries,Female,2005,0.28131302252143
+Developing,Injuries,Male,2010,2.7756495065155002
+Developing,Injuries,Female,2010,1.3507605529219
+Developed,Injuries,Male,2010,0.57458228465516
+Developed,Injuries,Female,2010,0.26985409242716
+Developing,Injuries,Male,2013,2.6913010365670003
+Developing,Injuries,Female,2013,1.2781935908641
+Developed,Injuries,Male,2013,0.54931978260184
+Developed,Injuries,Female,2013,0.26811444932062
+Developing,Communicable diseases,Male,1990,7.981972766176
+Developing,Communicable diseases,Female,1990,7.541637615597001
+Developed,Communicable diseases,Male,1990,0.33878202948689
+Developed,Communicable diseases,Female,1990,0.28701686756882
+Developing,Communicable diseases,Male,1995,7.6728626972219
+Developing,Communicable diseases,Female,1995,7.0833935521846
+Developed,Communicable diseases,Male,1995,0.38537368628633
+Developed,Communicable diseases,Female,1995,0.30741515108485995
+Developing,Communicable diseases,Male,2000,7.355372907569199
+Developing,Communicable diseases,Female,2000,6.7637205677105
+Developed,Communicable diseases,Male,2000,0.35360511373017
+Developed,Communicable diseases,Female,2000,0.30280387563874
+Developing,Communicable diseases,Male,2005,6.8680108172249
+Developing,Communicable diseases,Female,2005,6.3473331710335
+Developed,Communicable diseases,Male,2005,0.3667039246514
+Developed,Communicable diseases,Female,2005,0.30866080111839
+Developing,Communicable diseases,Male,2010,6.1359797985882
+Developing,Communicable diseases,Female,2010,5.6140285457450005
+Developed,Communicable diseases,Male,2010,0.36053867058609
+Developed,Communicable diseases,Female,2010,0.32125488275231995
+Developing,Communicable diseases,Male,2013,5.859951795076499
+Developing,Communicable diseases,Female,2013,5.2486669596218
+Developed,Communicable diseases,Male,2013,0.36659859083026003
+Developed,Communicable diseases,Female,2013,0.33442228067357
