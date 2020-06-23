@@ -7,6 +7,8 @@ https://rstudio.cloud/project/909351
 2. Click on "Take a permanent copy" at https://rstudio.cloud/project/909351
 3. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`
 
+## Our videos including demostrations of how to install R or how to get started using RStudio: https://media.ed.ac.uk/tag/tagid/healthyr
+
 
 ### Alternatively, for offline use, follow the steps below to install everything on your own computer:
 
