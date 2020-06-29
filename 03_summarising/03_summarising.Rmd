@@ -1,6 +1,6 @@
 ---
 title: "03 - Summarising data"
-output: html_notebook: default
+output: html_notebook
 ---
 
 In this session we will get to know our three best friends for summarising data: `group_by()`, `summarise()`, and `mutate()`.
@@ -58,14 +58,12 @@ The `group_by()` function tells R that you are about to perform subgroup analysi
 With `summarise()`, we can calculate the total number of deaths per year:
 
 ```{r}
-summary_data1 = 
-  mydata %>% 
+summary_data1 = mydata %>% 
   group_by(year) %>% 
   summarise(total_per_year = sum(deaths_millions))
 summary_data1
 
-summary_data2 = 
-  mydata %>% 
+summary_data2 = mydata %>% 
   group_by(year, cause) %>% 
   summarise(total_per_cause = sum(deaths_millions))
 summary_data2
@@ -170,15 +168,13 @@ The inverse of `pivot_wider()` is `pivot_longer()`. Be aware that making data lo
 
 The code here is the solution to Exercise 5 as we need something wider to be able to make it longer again:
 ```{r}
-mydata %>% 
+summary_data1 = mydata %>% 
 	group_by(year) %>% 
-	summarise(total_per_year = sum(deaths_millions)) ->
-	summary_data1
+	summarise(total_per_year = sum(deaths_millions))
 
-mydata %>% 
+summary_data3 = mydata %>% 
 	group_by(year, sex) %>% 
-	summarise(total_per_sex = sum(deaths_millions)) ->
-	summary_data3
+	summarise(total_per_sex = sum(deaths_millions))
 
 alldata = full_join(summary_data1, summary_data3)
 
@@ -321,15 +317,13 @@ alldata
 ## Exercise 5 solution
 
 ```{r}
-mydata %>% 
+summary_data1 = mydata %>% 
 	group_by(year) %>% 
-	summarise(total_per_year = sum(deaths_millions)) ->
-	summary_data1
+	summarise(total_per_year = sum(deaths_millions))
 
-mydata %>% 
+summary_data3 = mydata %>% 
 	group_by(year, sex) %>% 
-	summarise(total_per_sex = sum(deaths_millions)) ->
-	summary_data3
+	summarise(total_per_sex = sum(deaths_millions))
 
 alldata = full_join(summary_data1, summary_data3)
 
