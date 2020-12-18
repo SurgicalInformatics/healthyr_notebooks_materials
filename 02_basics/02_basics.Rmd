@@ -252,11 +252,7 @@ These can be huge benefits, especially as a lot of medical data analyses include
 
 Self-explanatory! These are numbers. In R, we specify these using the `as.numeric()` function. Sometimes numerics are further differentiated based on whether they have decimal places or not. `Integer` stands for a number without decimal places, whereas a `double` would have decimal places.
 
-### Exercise 
-
-
 Click on the blue arrow in front of `mydata` in the Environment tab and check that R knows that `cause` is a character (`chr`), whereas `year` and `deaths` are numbers (`num`).
-
 
 
 # Adding columns to tibbles
@@ -271,32 +267,26 @@ mydata %>%
 
 Conversely, if we want to delete a specific variable or column we use `select()` with the dropped variable subtracted.
 
-```{r, error = TRUE}
+The following code however, will return an error:
+
+```{r, eval = FALSE}
 mydata %>% 
   select(-new)
 ```
 
-As expected, this returns an error. R errors are usually helpful, but in this case, the Error is not very clear.
-The reason for this error is that when we added the new column using `mutate(new = 1:18)` it got printer, but not saved back to the Environment, because we didn't use the assignment arrow in front of the while tibble. Change the code in the chunk just above to include `mydata = mydata %>%`, run it, check the tibble from the Environment tab to make sure the column `new` exist. Then try removing it again with the `select()` function.
+The reason for this error is that when we added the new column using `mutate(new = 1:18)` it got printed, but not saved back to the Environment, because we didn't use the assignment operator in front of the whole tibble. 
 
-# Exercise 5
+## Exercise 5
 
-If you click on mydata in the Environment tab after running the code chunk with `select(-new)`, you will see that the variable is still included. That's because we didn't use the assignment operator when performing the select. So it got printed for us to see, but not saved to the Environment.
+Change the code in the chunk where we used mutate to include `mydata = mydata %>%`, run it, check the tibble from the Environment tab to make sure the column `new` exist. Then try removing it again with the `select()` function.
 
-1. Copy the example above and add in `mydata = ` on the first line.
-2. Then after creating it, drop the column `new` from `mydata` (using the `select()` function).
-
-
-```{r}
-# Exercise 5 - your R Code:
-
-```
+If you click on mydata in the Environment tab after running the code chunk above with `select(-new)`, you will see that the variable is still included. That's because, again, we didn't use the assignment operator when performing the select. So it got printed for us to see, but not saved to the Environment. Remember to add in `mydata = ` on the first line, immediately before `mydata`.
 
 Troubleshooting Exercise 5:
 
-* `Error in -x : invalid argument to unary operator` is R's obtuse way of saying "I can't find -x" (which in our case is `-new`). You will see this if you try to run the chunk twice - so trying to drop a column that has already been dropped so does not exist any more.
+* `Error: Can't subset columns that don't exist. x Column `new` doesn't exist.` is R's way of saying "I can't find `-new`". You will see this if you try to run the chunk twice - so trying to drop a column that has already been dropped so does not exist any more.
 
-* If you misspell a variable name when using select positively (e.g. to only select one variable, such as `mydata %>% select(cause)`), it will give a much better error of `Error in .f(.x[[i]], ...) : object 'cuase' not found`.
+* If you misspell a variable name when using select positively (e.g. to only select one variable, such as `mydata %>% select(cause)`), it will give an error of `Error in .f(.x[[i]], ...) : object 'cuase' not found`.
 
 
 # Calculated variables

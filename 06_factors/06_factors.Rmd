@@ -11,7 +11,9 @@ library(tidyverse)
 library(finalfit)
 library(broom)
 
-mydata = boot::melanoma # cleverly loads it from the package - as it's an example dataset included with the boot package
+# the following code cleverly loads it from the package 
+# as it's an example dataset included with the boot package
+mydata = boot::melanoma 
 
 # your data usually arrives in a csv file:
 mydata = read_csv(here::here("melanoma_data.csv"))
