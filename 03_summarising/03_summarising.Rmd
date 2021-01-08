@@ -115,18 +115,19 @@ mutate_example = mydata %>%
 mutate_example
 ```
 
-You should see that `mutate()` adds the same number total number (309.4174) to every line in the tibble. 
+You should see that `mutate()` adds the same total number (309.4174) to every line in the tibble. 
 
 ## Exercise 4 (optional)
 
 Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo **Exercise 2** without using a join? 
-Hint: instead of creating `summary_data1` (total deaths per year) as a separate tibble which we then join with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total death per year to each row.
+Hint: instead of creating `summary_data1` (total deaths per year) as a separate tibble which we then join with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total deaths per year to each row.
 
 ```{r}
 # Exercise 4 - your R code:
 
 ```
 
+Did you notice in Exercise 4, that when we use `group_by()` before `summary()`, a helpful message appears (don't worry, red doesn't always mean bad) to let you know that the output has been regrouped with one group fewer?  This means we can add `mutate()` without having to redefine the groups with another `group_by()`.  Look out for this message in future exercises.
 
 # Wide vs long: `pivot_wider()` and `pivot_longer()`
 
