@@ -7,10 +7,28 @@ https://rstudio.cloud/project/909351
 2. Click on "Take a permanent copy" at https://rstudio.cloud/project/909351
 3. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`
 
-## Our videos including demostrations of how to install R or how to get started using RStudio: https://media.ed.ac.uk/tag/tagid/healthyr
+## Videos
+
+1.	Installing R
+    - Windows: https://media.ed.ac.uk/media/Installing+R+for+Windows/1_rjmwhomf
+    - Mac: https://media.ed.ac.uk/media/Installing+R+for+Mac/1_6ehnxok0
+2.	Installing RStudio
+    - Windows: https://media.ed.ac.uk/media/Installing+RStudio+for+Windows/1_vofip4cg
+    - Mac: https://media.ed.ac.uk/media/Installing+RStudio+for+Mac/1_zql53iva
+3.	Installing R packages: https://media.ed.ac.uk/media/Installing+R+Packages/1_2yfie5da
+4.	Exploring RStudio: https://media.ed.ac.uk/media/Exploring+RStudio/1_0bdm2dxf
+5.	Welcome to R: https://media.ed.ac.uk/media/Welcome+to+R/1_is6b5a1d
+6.	RStudio Projects: https://media.ed.ac.uk/media/RStudio+Projects/0_06t7jmhd
+7.	Importing CSV files: https://media.ed.ac.uk/media/Importing+CSV+Files/1_ntwi93hq
+8.	Importing Excel files: https://media.ed.ac.uk/media/Importing+Excel+files/0_7k3z7x1a
+9.	Exploring data: https://media.ed.ac.uk/media/Exploring+Data/0_0x81oy5g
+10.	Preparing data: https://media.ed.ac.uk/media/Preparing+Data/0_2w3an1sj
+11.	Tidying data: https://media.ed.ac.uk/media/Tidying+Data/1_6lvj81qx
 
 
-### Alternatively, for offline use, follow the steps below to install everything on your own computer:
+All videos: https://media.ed.ac.uk/tag/tagid/healthyr
+
+### For offline use, follow the steps below to install everything on your own computer:
 
 ## 1. R
 
