@@ -377,15 +377,14 @@ paste("Year is", mydata$year)
 
 ## Exercise 8
 
-Fix this code: `paste(Today is, Sys.Date())`
+Fix this code:
 
-Hint: Think about how we always add quotes around characters.
-
-```{r}
-# Exercise 8 - your R code:
-paste("Today is", Sys.Date())
+```{r, error = TRUE}
+# Exercise 8:
+paste(Today is, Sys.Date())
 ```
 
+Hint: Think about how we always add quotes around characters.
 
 # Combining two tibbles
 
