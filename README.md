@@ -36,7 +36,7 @@ Download and install the latest version of R from:
 
 https://www.stats.bris.ac.uk/R/
 
-*Mac*: `Download R for (Mac) OS X` - `R-3.6.X.pkg`
+*Mac*: `Download R for (Mac) OS X` - `R-4.1.2.pkg`
 
 *Windows*: `Download R for Windows` - `base`
 
