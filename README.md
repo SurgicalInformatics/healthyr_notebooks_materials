@@ -1,10 +1,10 @@
 # Getting started:
 
 Create a free RStudio Cloud account and take a copy of the HealthyR Notebooks project following this link:
-https://rstudio.cloud/project/909351
+https://rstudio.cloud/project/3850635
 
 1. Create an account
-2. Click on "Take a permanent copy" at https://rstudio.cloud/project/909351
+2. Click on "Take a permanent copy" at https://rstudio.cloud/project/3850635
 3. Click on the `01_introduction` folder in the Files pane (bottom-right), then open `01_introduction.Rmd`
 
 ## Videos
