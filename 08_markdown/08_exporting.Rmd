@@ -1,7 +1,7 @@
 ---
 title: "Markdown and exporting your plots/tables"
 author: '! Your name here !'
-date: "1-June 2019"
+date: "11-May 2022"
 output:
   html_document: default
   pdf_document: default
@@ -26,7 +26,7 @@ We are using the gapminder dataset:
 
 mydata = gapminder %>% 
   mutate(gdpPercap = round(gdpPercap)) %>% 
-  mutate(pop_millions = (pop/1e6) %>% round(1)) %>% 
+  mutate(pop_millions = round(pop/1e6, 1)) %>% 
   select(-pop)
 
 ```

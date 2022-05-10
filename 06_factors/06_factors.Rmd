@@ -101,7 +101,7 @@ mydata = mydata %>%
 
 * `include.lowest = TRUE` is a necessary historical quirk of the `cut()` function. Without it, the lowest value (in this case, 4 years old) would get set to NA (missing). Without `include.lowest = TRUE` the lowest level would be "(4,20]" which doesn't include 4 like the `[4` does.
 
-## Exercise 1
+## Exercise
 
 Investigate `mydata$age.factor` and use `fct_recode()` to give it more human readable levels.
 
@@ -323,7 +323,7 @@ mydata %>%
 
 
 
-## Exercise 2
+## Exercise 6.1
 
 Using `finalfit` create a summary table with "status.factor" as the dependent variable and the following as explanatory variables:  
 
@@ -338,7 +338,7 @@ Try changing the table to show `median` and `interquartile range` instead of mea
 
 
 
-## Exercise 3
+## Exercise 6.2
 By changing one and only one line in the following block create a new table showing the breakdown of `status.factor` by age and secondly the breakdown of `status.factor` by sex:
 
 ```{r, eval=FALSE}
@@ -355,5 +355,11 @@ mydata %>%
 ```
 
 
-## Exercise 4
-Reproduce the table from Exercise 2 but this time with row-wise percentages instead of col(column)-wise percentages.
+
+
+## Exercise 6.3
+Now produce the tables from 6.3 using the `summary_factorlist` function from the `library(finalfit)` package. 
+
+
+## Exercise 6.4
+Reproduce the plot from 6.1 but this time with row-wise percentages instead of col(column)-wise percentages.
