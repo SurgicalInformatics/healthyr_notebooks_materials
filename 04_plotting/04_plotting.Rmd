@@ -19,8 +19,6 @@ mydata %>% summary()
 mydata$year %>% unique()
 ```
 
-The dataset was saved
-
 # Scatter plots/bubble plots - `geom_point()`
 
 Let's plot life expectancy against GDP per capita (`x = gdpPercap, y=lifeExp`) at year 2007:
