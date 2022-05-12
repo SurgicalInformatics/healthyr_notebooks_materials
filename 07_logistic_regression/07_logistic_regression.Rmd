@@ -188,7 +188,7 @@ mydata %>%
 ```{r, results='hide', warning=F}
 mydata %>% 
   ggplot(aes(x = age)) +
-  geom_histogram(aes(fill = age))
+  geom_histogram()
 ```
 
 Now we are ready for some modelling!
