@@ -17,8 +17,8 @@ In this session, we will create five beautiful and colourful barplots in less th
 
 If your cursor is in a code chunk (in the grey area), you can use these keyboard shortcuts:
 
-* Run a line with Ctrl+Enter
-* Run all lines in a code chunk with Ctrl+Shift+Enter
+* Run a line with Ctrl+Enter OR Command+Enter
+* Run all lines in a code chunk with Ctrl+Shift+Enter OR Command+Shift+Enter
 
 
 1. Practise these keyboard shortcuts on the code chunk below.

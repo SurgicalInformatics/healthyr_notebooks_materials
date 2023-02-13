@@ -1,10 +1,10 @@
 ---
 title: "Markdown and exporting your plots/tables"
 author: '! Your name here !'
-date: "11-May 2022"
+date: "24-February 2023"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
   word_document: default
 ---
 
@@ -35,11 +35,17 @@ A random sample of rows in the dataset:
 ```{r}
 
 mydata %>% 
+  sample_n(10)
+
+```
+
+```{r}
+
+mydata %>% 
   sample_n(10) %>% 
   kable()
 
 ```
-
 
 Number of variables: `r mydata %>% ncol()`.
 
