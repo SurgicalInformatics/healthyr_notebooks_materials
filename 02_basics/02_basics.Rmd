@@ -1,6 +1,8 @@
 ---
 title: "02 - R Basics"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 The aim of this module is to familiarise you with how R works and how to read in and apply basic manipulations on your data. Here, we will be working with similar but slightly shorter version of the Global Burden of Disease dataset than we did for the bar plots.
@@ -504,6 +506,10 @@ e <- 7
 8 -> f
 ```
 
+## Exercise 2 solution 
+
+1. 3
+2. 16149409
 
 ## Exercise 3 solution
 

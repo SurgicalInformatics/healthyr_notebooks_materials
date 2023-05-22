@@ -1,6 +1,8 @@
 ---
 title: "03 - Summarising data"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 In this session we will get to know our three best friends for summarising data: `group_by()`, `summarise()`, and `mutate()`.
@@ -85,6 +87,10 @@ Notice that:
 * `mydata` has 5 variables, whereas the summarised tibbles have 2 and 3. Which variables got dropped? Why?
 
 
+# `mutate()`
+
+Mutate works similarly to `summarise()` (as in it respects groupings set with `group_by()`), but it adds a new column into the original data. `summarise()`, on the other hand, condenses the data into a minimal table that only includes the variables specifically asked for.
+
 ## Exercise 2
 
 For each cause, calculate its percentage to total deaths in each year.
@@ -95,11 +101,6 @@ Hint: Use `full_join()` on `summary_data1` and `summary_data2`.
 # Exercise 2 - your R code:
 
 ```
-
-
-# `mutate()`
-
-Mutate works similarly to `summarise()` (as in it respects groupings set with `group_by()`), but it adds a new column into the original data. `summarise()`, on the other hand, condenses the data into a minimal table that only includes the variables specifically asked for.
 
 ## Exercise 3
 
@@ -200,7 +201,7 @@ result_wider %>%
 
 ## Exercise 6
 
-The arguments `names_to` and `values_to` are not strictly necessary, if you omit them the columns will get assigned defaults - "name" and "value". Delete the arguments `names_to = "sex", values_to = "percentage"` from the code below, so the function becomes `pivot_longer(-year)` to see convince yourself the previous sentence holds true.
+The arguments `names_to` and `values_to` are not strictly necessary, if you omit them the columns will get assigned defaults - "name" and "value". Delete the arguments `names_to = "sex", values_to = "percentage"` from the code below, so the function becomes `pivot_longer(-year)` to convince yourself the previous sentence holds true.
 
 ```{r}
 result_wider %>% 

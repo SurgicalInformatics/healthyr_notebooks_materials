@@ -1,6 +1,8 @@
 ---
 title: "04 - Different types of plots"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 Before starting a new session, remember to Restart R (top menu, Session - Restart R).

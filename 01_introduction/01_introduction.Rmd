@@ -1,6 +1,8 @@
 ---
 title: "Your first R Notebook"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 In this session, we will create five beautiful and colourful barplots in less than an hour.

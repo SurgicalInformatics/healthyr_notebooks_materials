@@ -1,6 +1,8 @@
 ---
 title: "06 - Factors - handling categorical data"
-output: html_notebook
+output:
+  pdf_document: default
+  html_notebook: default
 ---
 
 # Data
@@ -357,3 +359,56 @@ mydata %>%
 
 ## Exercise 4
 Reproduce the table from Exercise 2 but this time with row-wise percentages instead of col(column)-wise percentages.
+
+
+
+
+
+
+# Solutions 
+
+## Excercise 1 Solution
+
+```{r}
+mydata = mydata %>%
+  mutate(age.factor = age.factor %>% 
+           fct_recode(" 4 to 20" =  "[4,20]",
+                      "21 to 40" = "(20,40]",
+                      "41 to 60" = "(40,60]",
+                      "61 to 95" = "(60,95]"))
+```
+
+## Excercise 2 Solution
+
+```{r}
+mydata %>% 
+  summary_factorlist(dependent = "status.factor", 
+                     explanatory = c("sex.factor", "ulcer.factor", "age.factor", "thickness"),
+                     p = TRUE,
+                     column = TRUE,
+                     cont = "median")
+```
+
+## Excercise 3 Solution
+
+```{r}
+mydata %>%
+  count(age.factor, sex.factor,status.factor) %>%
+  group_by(status.factor) %>%
+  mutate(total = sum(n)) %>%
+  mutate(percentage = round(100*n/total, 1)) %>% 
+  mutate(count_perc = paste0(n, " (", percentage, ")")) %>% 
+  select(-total, -n, -percentage) %>% 
+  pivot_wider(names_from = status.factor, values_from = count_perc)
+```
+
+## Excercise 4 Solution
+
+```{r}
+mydata %>% 
+  summary_factorlist(dependent = "status.factor", 
+                     explanatory = c("sex.factor", "ulcer.factor", "age.factor", "thickness"),
+                     p = TRUE,
+                     column = FALSE,
+                     cont = "median")
+```

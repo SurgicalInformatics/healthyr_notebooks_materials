@@ -137,7 +137,7 @@ We should take this into account in our model.
 
 ## Exercise
 
-After sorting out your outcome variable, create a new variable called `stage.factor` to encompass the stages of melanoma based upon the thickness. In this data, the `thickness` variable is measured in millimetres too.
+After sorting out your outcome variable, create a new variable called `stage.factor` to encompass the stages of melanoma based upon the thickness. In this data, the `thickness` variable is measured in milimetres too.
 
 ```{r}
 
@@ -350,3 +350,47 @@ These metrics are available here:
 mydata %>% 
   finalfit(dependent, explanatory, metrics=TRUE)
 ```
+
+
+
+
+# Solutions 
+
+## Excercise 1 solution 
+
+```{r}
+model2 = glm(died_melanoma.factor ~ stage.factor, data = mydata, family = "binomial")
+summary(model2)
+exp(model2$coefficients)
+exp(confint(model2))
+
+model3 = glm(died_melanoma.factor ~ ulcer.factor, data = mydata, family = "binomial")
+summary(model3)
+exp(model3$coefficients)
+exp(confint(model3))
+
+model4 = glm(died_melanoma.factor ~ age.factor, data = mydata, family = "binomial")
+summary(model4)
+exp(model4$coefficients)
+exp(confint(model4))
+
+model5 = glm(died_melanoma.factor ~ thickness, data = mydata, family = "binomial")
+summary(model5)
+exp(model5$coefficients)
+exp(confint(model5))
+```
+
+## Exercise 2 solution 
+
+```{r}
+dependent="died_melanoma.factor"
+explanatory = c("age", "sex.factor", "stage.factor", "ulcer.factor")
+
+mydata %>% 
+  finalfit(dependent, explanatory)
+
+#try using glm instead of final fit 
+model6 = glm(data = mydata, died_melanoma.factor ~ age + sex.factor + stage.factor + ulcer.factor, family = binomial)
+summary(model6)
+```
+
