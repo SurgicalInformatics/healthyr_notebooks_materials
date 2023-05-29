@@ -269,7 +269,7 @@ my_survplot.solution = ggsurvplot(my_survfit.solution,
 my_survplot.solution
 ```
 
-**3.4**
+**3.3**
 
 ```{r, eval=F}
 # Fit model
@@ -277,7 +277,7 @@ my_hazard = coxph(survival_object~sex.factor+ulcer.factor+age.factor+thickness, 
 summary(my_hazard)
 
 # Melanoma thickness has a HR 1.12 (1.04 to 1.21). 
-# This is interpretted as a 12% increase in the
+# This is interpreted as a 12% increase in the
 # risk of death at any time for each 1 mm increase in thickness. 
 
 # Check assumptions

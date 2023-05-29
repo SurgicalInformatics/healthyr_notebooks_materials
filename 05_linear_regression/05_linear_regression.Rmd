@@ -1,8 +1,6 @@
 ---
 title: "05 - Linear regression"
-output:
-  pdf_document: default
-  html_notebook: default
+output: html_notebook
 ---
 
 # Data

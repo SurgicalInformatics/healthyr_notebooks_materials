@@ -10,7 +10,7 @@ As we have seen in previous sessions, regression analysis is a statistical proce
 
 ![](age_bp.png)
 
-Logistic regression is an extension of this, where the variable being predicted is *categorical*. We will deal with binary logistic regression, where the variable being predicted has two levels, e.g. yes or no, 0 or 1. In healthcare this is usually done for an event (like death) occurring or not occurring. Logistic regression can tell us the probability of the outcome occuring.
+Logistic regression is an extension of this, where the variable being predicted is *categorical*. We will deal with binary logistic regression, where the variable being predicted has two levels, e.g. yes or no, 0 or 1. In healthcare this is usually done for an event (like death) occurring or not occurring. Logistic regression can tell us the probability of the outcome occurring.
 
 The aims of this session are to:
 
@@ -46,15 +46,15 @@ Odds and probabilities can get confusing so let's get them straight:
 
 ![](p_vs_odds2.png)
 
-Odds and probabilities can always be interconverted. For example, if the odds of a patient dying from a disease are `9 to 1` then the probability of death (also known as risk) is 10%. Odds of `1 to 1` equal 50%.
+Odds and probabilities can always be inter-converted. For example, if the odds of a patient dying from a disease are `9 to 1` then the probability of death (also known as risk) is 10%. Odds of `1 to 1` equal 50%.
 
-$Odds = \frac{p}{1-p}$, where $p$ is the probability of the outcome occuring (or the circle being red).
+$Odds = \frac{p}{1-p}$, where $p$ is the probability of the outcome occurring (or the circle being red).
 
 Look at the numbers and convince yourself that this works. 
 
 ## Odds ratios
 
-For a given categorical explanatory variable (e.g. gender), the likelihood of an outcome/dependent occuring (e.g cancer) can be expressed in a ratio of odds or odds ratio , e.g. the odds of men developing cancer is 2-times that of females, odds ratio = 2.0. 
+For a given categorical explanatory variable (e.g. gender), the likelihood of an outcome/dependent occurring (e.g cancer) can be expressed in a ratio of odds or odds ratio , e.g. the odds of men developing cancer is 2-times that of females, odds ratio = 2.0. 
 
 ![](or.png)
 
@@ -62,7 +62,7 @@ An alternative is a ratio of probabilites, called a risk ratio or relative risk.
 
 # Melanoma dataset
 
-Malignant Melanoma is a cancer of the skin. It is agressive and highly invasive, making it difficult to treat.
+Malignant Melanoma is a cancer of the skin. It is aggressive and highly invasive, making it difficult to treat.
 
 It's classically divided into 4 stages of severity, based upon the depth of the tumour:
 
@@ -83,15 +83,15 @@ Within the `glm()` function there are several `options` in the function we must 
 
 `data` - you must define the dataframe to be used in the regression.
 
-`family` - this tells R to treat the analysis as a logisitic regression. For our purposes, `family` will always be `"binomial"` (as binary data follow this distribution).
+`family` - this tells R to treat the analysis as a logistic regression. For our purposes, `family` will always be `"binomial"` (as binary data follow this distribution).
 
-`x ~ a + b + c` - this is the formula for the logistic regression, with `x` being the outcome and `a`, `b` and `c` being predictor variables.
+`y ~ x1 + x2 + x3` - this is the formula for the logistic regression, with `y` being the outcome and `x1`, `x2` and `x3` being predictor variables.
 
 Note the outcome is separated from the rest of the formula and sits on the left hand side of a `~`. The confounding variables are on the right side, separated by a `+` sign.
 
 The final `glm()` function takes the following form:
 
-`glm(x ~ a + b + c + d, data = data, family = "binomial")`
+`glm(y ~ x1 + x2 + x3 + x4, data = data, family = "binomial")`
 
 
 # Setting up your data
@@ -113,7 +113,7 @@ load(here::here("melanoma_factored.rda"))
 ```
 
 
-Here `status.factor` has three levels: `Died`, `Died - other causes` and `Alive`. This is not useful for us, as logistic regression requires outcomes to be binary.
+Originally `status.factor` had three levels: `Died`, `Died - other causes` and `Alive`. This is not useful for us, as logistic regression requires outcomes to be binary.
 
 We want to find out using logistic regression, which variables predict death from Melanoma. So we need a factor variable, `died_melanoma.factor`. This will have two outcomes, `Yes` (did die from melanoma) or `No` (did not die from melanoma). We created the variable in the last session but this time we can add a label to the factor so that `finalfit` will use that label for tables and plots:
 
@@ -121,7 +121,9 @@ We want to find out using logistic regression, which variables predict death fro
 ```{r}
 mydata = mydata %>% 
   mutate(died_melanoma.factor = status.factor %>% 
-           ff_label("Died melanoma")
+           fct_recode("Yes" = "Died",
+                      "No" = "Alive") %>% 
+           ff_label("Died from melanoma")
   )
 
 mydata$died_melanoma.factor %>% levels()
@@ -137,7 +139,7 @@ We should take this into account in our model.
 
 ## Exercise
 
-After sorting out your outcome variable, create a new variable called `stage.factor` to encompass the stages of melanoma based upon the thickness. In this data, the `thickness` variable is measured in milimetres too.
+After sorting out your outcome variable, create a new variable called `stage.factor` to encompass the stages of melanoma based upon the thickness. In this data, the `thickness` variable is measured in millimetres too.
 
 ```{r}
 
@@ -354,10 +356,6 @@ mydata %>%
 
 
 
-# Solutions 
-
-## Excercise 1 solution 
-
 ```{r}
 model2 = glm(died_melanoma.factor ~ stage.factor, data = mydata, family = "binomial")
 summary(model2)
@@ -389,8 +387,7 @@ explanatory = c("age", "sex.factor", "stage.factor", "ulcer.factor")
 mydata %>% 
   finalfit(dependent, explanatory)
 
-#try using glm instead of final fit 
+#try using glm instead of finalfit 
 model6 = glm(data = mydata, died_melanoma.factor ~ age + sex.factor + stage.factor + ulcer.factor, family = binomial)
 summary(model6)
 ```
-

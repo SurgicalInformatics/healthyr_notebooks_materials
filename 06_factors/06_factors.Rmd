@@ -1,8 +1,6 @@
 ---
 title: "06 - Factors - handling categorical data"
-output:
-  pdf_document: default
-  html_notebook: default
+output: html_notebook
 ---
 
 # Data
@@ -359,8 +357,6 @@ mydata %>%
 
 ## Exercise 4
 Reproduce the table from Exercise 2 but this time with row-wise percentages instead of col(column)-wise percentages.
-
-
 
 
 

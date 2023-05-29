@@ -1,6 +1,7 @@
 ---
 title: "Your first R Notebook"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 ---
@@ -23,7 +24,7 @@ If your cursor is in a code chunk (in the grey area), you can use these keyboard
 * Run all lines in a code chunk with Ctrl+Shift+Enter OR Command+Shift+Enter
 
 
-1. Practise these keyboard shortcuts on the code chunk below.
+1. Practice these keyboard shortcuts on the code chunk below.
 2. You will know that they worked if Data objects (`mydata` and `mydata2013` appear in the Environment tab). Find the Environment tab. If it seems collapsed, click on it to reveal.
 3. Click on `mydata` and investigate it in the new tab that opens up next to `01_introduction.Rmd`. What's the difference between `mydata` and `mydata2013`?
 4. Get `mydata2013` printed in your notebook by typing it on the empty line right after the `source(here::here("initialise_healthyr.R"))` line. Remember: Control+Enter to run and for it to show.
