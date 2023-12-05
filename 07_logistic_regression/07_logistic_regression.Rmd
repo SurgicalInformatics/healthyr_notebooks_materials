@@ -209,7 +209,7 @@ First we need to create a regression model, using `glm()`, we will then summaris
 Note, we need to use the `family` option. Specifying `'binomial'` in `family` tells `glm` to switch to logistic regression.
 
 ```{r}
-#Create a model
+# Create a model
 
 glm(died_melanoma.factor ~ sex.factor, data = mydata, family = "binomial")
 

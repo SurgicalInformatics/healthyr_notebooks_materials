@@ -80,17 +80,11 @@ Similarly to Exercise 1, follow the step-by-step instructions to transform the i
 
 
 ```{r, fig.width=10, fig.height=4}
-
 mydata %>% 
-  ggplot(aes(x = year,
-             y=lifeExp,
-             group = country,
-             colour=continent)) +
-  geom_line() +
-  facet_wrap(~continent) + 
-  theme_bw() +
-  scale_colour_brewer(palette = "Paired")
-
+  ggplot(aes(x     = year,
+             y     = lifeExp,
+             group = country)) +
+  geom_line()
 ```
 
 

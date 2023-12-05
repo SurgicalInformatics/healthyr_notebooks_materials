@@ -63,7 +63,6 @@ p + expand_limits(y = 0)
 
 ```
 
-\newpage 
 
 Or two:
 
@@ -93,7 +92,7 @@ p + coord_cartesian(ylim = c(70, 85), xlim = c(20000, 40000))
 ```
 
 
-###Exercise
+### Exercise
 
 How is this one different to the previous:
 
@@ -176,8 +175,6 @@ p +
 
 
 Note that http://colorbrewer2.org/ also has options for *Colourblind safe* and *Print friendly*.
-
-\newpage 
 
 # Titles and labels
 
@@ -306,10 +303,7 @@ p +
 
 
 ```{r}
-
-
 ggsave(p, file = "my_saved_plot.png", width = 5, height = 4)
-
 
 ```
 

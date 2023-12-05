@@ -383,7 +383,7 @@ Hint: Think about how we always add quotes around characters.
 
 ```{r}
 # Exercise 8 - your R code:
-paste("Today is", Sys.Date())
+
 ```
 
 
