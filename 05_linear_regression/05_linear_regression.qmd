@@ -1,0 +1,299 @@
+---
+title: "05 - Linear regression"
+format:
+  html: default
+  pdf: default
+  docx: default
+---
+
+# Data
+
+We will be using the same gapminder dataset as in the plotting session.
+
+```{r}
+#| message: false
+
+library(tidyverse)
+library(broom)     # transforms statistical output to tibbles
+
+mydata = read_csv(here::here("gapminder_data.csv"))
+
+```
+
+Let's plot the life expectancies of European countries over the past 60 years:
+
+
+```{r}
+#| fig-height: 5
+#| fig-width: 6
+
+mydata %>% 
+  filter(continent == "Europe") %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+  geom_point() +
+  facet_wrap(~country) +
+  theme_bw() +
+  scale_x_continuous(breaks = c(1960, 1980, 2000))
+
+```
+
+## The `%in%` operator
+
+See in the code above, we're using `filter(continent == "Europe")`. But what if we wanted to filter for more than one continent? We can use the OR operator (denoted `|`): `filter(continent == "Europe" | continent == "Asia")`. But this means we have to type in continent twice, or even more time if we decided add in further selections. So for filtering for a list of values, we can use the `%in%` operator:
+
+```{r}
+# count the numbers of rows (observations) in the dataset for each continent
+mydata %>% 
+  count(continent)
+```
+
+
+```{r}
+# same as above but with filtering for 3 continents
+mydata %>% 
+  filter(continent %in% c("Europe", "Asia", "Africa")) %>% 
+  count(continent)
+```
+
+
+# `c()` recap
+
+Note the use of the combine function - `c()`. If we tried to do it without it, i.e. `filter(continent %in% "Europe", "Asia", "Africa")`, it would not work. We would get an error of `Error: Evaluation error: operations are possible only for numeric, logical or complex types.`. This is because R would only evaluate whether continent is "Europe", then move on to ", Asia" but not knowing it was also supposed to be part of the same comparison with `continent %in%`. And filter doesn't know what to do with just "Asia" on its own.
+
+## Exercise 1
+
+Create the same plot as above (life expectancy over time), but for just Turkey and the United Kingdom, and add linear regression lines.
+
+1. Copy the 6-line code from the second chunk in this Notebook (`mydata %>% filter(...) %>% ggplot(...) +`).
+2. Change `continent` to `country`.
+3. Replace `==` with `%in%`.
+4. Replace `"Europe"` with `c("United Kingdom", "Turkey")`.
+5. Run what you have there to see if you get two plots.
+6. Add `+ geom_smooth(method = "lm")` to get linear regression lines added in the plots. `lm()` stands for linear model.
+
+```{r}
+# Exercise 1 - your R code
+
+```
+
+# Simple linear regression
+
+As you can see, `ggplot()` is very happy to run and plot linear regression for us. To access the results, however, we should save the full results of the linear regression models into variables in our Environment. We can then investigate the intercepts and the slope coefficients (linear increase per year):
+
+United Kingdom:
+```{r}
+fit_uk = mydata %>%
+  filter(country == "United Kingdom") %>% 
+  lm(lifeExp~year, data = .)
+
+fit_uk %>% 
+  summary()
+```
+
+Turkey: 
+```{r}
+fit_turkey = mydata %>%
+  filter(country == "Turkey") %>% 
+  lm(lifeExp~year, data = .)
+
+fit_turkey %>% 
+  summary()
+```
+
+# When pipe sends data to the wrong place: use `, data = .` to direct it
+
+In the code above, the `, data = .` bit is necessary because the pipe usually sends data to the beginning of function brackets. So `mydata %>% lm(lifeExp~year)` would be equivalent to `lm(mydata, lifeExp~year)`. However, this is not an order that `lm()` will accept. `lm()` wants us to specify the variables first (`dependent~explanatory`), and then wants the data these variables are present in. So we have to use the `.` to tell the pipe to send the data to the second argument of `lm()`, not the first.
+
+
+# Accessing the coefficients of linear regression
+
+A simple linear regression model will return two coefficients - the intercept and the slope (the second returned value):
+
+```{r}
+fit_uk$coefficients
+```
+
+```{r}
+fit_turkey$coefficients
+```
+
+
+In this example, the intercept is telling us that life expectancy at year 0 in the United Kingdom (so 2019 years ago) was -294 years. While this is mathematically correct (based on the data we have it), it does not make physiological sense. It is up you, the person using R, to know when your model is overreaching.
+
+To make the intercepts more meaningful, let's add in a new column called `year_from1952` and redo `fit_turkey` and `fit_uk` using `year_from1952` instead of `year`.
+
+```{r}
+mydata = mydata %>% 
+  mutate(year_from1952 = year - 1952)
+
+fit_uk = mydata %>%
+  filter(country == "United Kingdom") %>% 
+  lm(lifeExp~year_from1952, data = .)
+
+fit_turkey = mydata %>%
+  filter(country == "Turkey") %>% 
+  lm(lifeExp~year_from1952, data = .)
+```
+
+
+```{r}
+fit_uk$coefficients
+```
+
+
+```{r}
+fit_turkey$coefficients
+```
+
+Now, the updated results are telling us that in year 1952, the life expectancy in the United Kingdom was 68 years. Note that the slope (0.18) does not change. There was nothing wrong with the original model, and the results were completely correct, just not very useful.
+
+## Accesing all model information `tidy()` and `glance()`
+
+In the fit_uk and fit_turkey examples above, we were using `fit_uk %>% summary()` to get R to print out a summary of the model. This summary is not, however, in a rectangular shape so we can't easily access the values or put them in a table/use as information on plot labels.
+
+We use the `tidy()` function from `library(broom)` to get the explanatory variable specific values in a nice tibble:
+
+```{r}
+fit_uk %>% tidy()
+```
+
+In the `tidy()` output, the column `estimate` includes both the intercepts and slopes.
+
+
+And we use the `glance()` function to get overall model statistics (mostly the r.squared).
+```{r}
+fit_uk %>% glance()
+```
+
+
+# Interactive Shiny apps for learning about linear regression
+
+
+https://gallery.shinyapps.io/simple_regression/
+
+https://argoshare.is.ed.ac.uk/multi_regression/
+
+(Shiny is an R package for creating web apps)
+
+## Exercise 2
+
+Open the first Shiny app ("Simple regression"). Move the sliders until the red lines (residuals*) turn green - this means you've made the line fit the points as well as possible. Look at the intercept and slope - discuss with your neighbour or a tutor what these numbers mean/how they affect the straight line on the plot.
+
+*Residual is how far away each point (observation) is from the linear regression line. (In this example it's the linear regression line, but residuals are relevant in many other contexts as well.)
+
+# Multiple linear regression
+
+Multiple linear regression includes more than one explanatory variable. There are a few ways to include more variables, depending on whether they should share the intercept and how they interact:
+
+Simple linear regression (exactly one predictor variable):
+
+`myfit = lm(lifeExp~year, data=mydata)`
+
+Multiple linear regression (additive):
+
+`myfit = lm(lifeExp~year+country, data=mydata)`
+
+Multiple linear regression (interactions):
+
+`myfit = lm(lifeExp~year*country, data=mydata)`
+
+These examples of multiple regression include two variables: `year` and `country`, but we could include more by adding them with `+`.
+
+## Exercise 3
+
+Open the second Shiny app ("Multiple regression") and see how:
+
+* In simple regression, there is only one intercept and slope for the whole dataset.
+* Using the additive model (`lm(formula = y ~ x + group`) the two lines (one for each group) have different intercepts but the same slope. However, the `lm()` summary seems to only include one line called "(Intercept)", how to find the intercept for the second group of points?
+* Using the interactive model (`lm(formula = y ~ x*group`)) the two lines have different intercepts and different slopes.
+
+## Exercise 4
+
+Convince yourself that using an fully interactive multivariable model is the same as running several separate simple linear regression models. Remember that we calculate the life expectancy in 1952 (intercept) and improvement per year (slope) for Turkey and the United Kingdom:
+
+```{r}
+fit_uk %>%
+  tidy() %>%
+  mutate(estimate = round(estimate, 2)) %>% 
+  select(term, estimate)
+```
+
+
+```{r}
+fit_turkey %>%
+  tidy() %>%
+  mutate(estimate = round(estimate, 2)) %>% 
+  select(term, estimate)
+```
+
+These were the two separate models from above (now using `tidy() %>%  mutate() %>%  select()` instead of `summary()`). And this is how we can get to the same coefficients using a single multivariable linear regression model (note the `year_from1952*country`):
+
+```{r}
+mydata %>% 
+  filter(country %in% c("Turkey", "United Kingdom")) %>% 
+  lm(lifeExp ~ year_from1952*country, data = .)   %>% 
+  tidy() %>%
+  mutate(estimate = round(estimate, 2)) %>% 
+  select(term, estimate)
+```
+
+Now. It may seem like R has omitted Turkey but the values for Turkey are actually in the Intercept = 46.02 and in year_from1952 = 0.50. Can you make out the intercept and slope for the UK? Are they the same as in the simple linear regression model?
+
+## Exercise 5
+
+
+1. Copy the multivariable linear regression model (where "Turkey" and the "United Kingdom" are in the same `lm()` model) from Exercise 4.
+
+2. Include a third country (e.g. "Portugal") in the `filter(country %in% c("Turkey", "United Kingdom", "Portugal"))` to your multivariable linear regression model.
+
+3. Do the results change? How, and why?
+
+```{r}
+# Exercise 5 - your R code
+```
+
+# Linear regression diagnostics
+
+Piping a fit object into the Base R's `plot()` function gives us 4 diagnostic plots:
+
+```{r, fig.width=3.8, fig.height=3}
+fit_turkey %>% plot()
+```
+
+
+# Solutions
+
+## Exercise 1 solution
+
+```{r}
+mydata %>% 
+  filter(country %in% c("United Kingdom", "Turkey")) %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+  geom_point() +
+  facet_wrap(~country) +
+  theme_bw() +
+  scale_x_continuous(breaks = c(1960, 1980, 2000)) +
+  geom_smooth(method = "lm")
+```
+
+## Exercise 5 solution
+
+
+```{r}
+
+mydata %>% 
+  filter(country %in% c("Turkey", "United Kingdom", "Portugal")) %>% 
+  lm(lifeExp ~ year_from1952*country, data = .)   %>% 
+  tidy() %>%
+  mutate(estimate = round(estimate, 2)) %>% 
+  select(term, estimate)
+
+```
+
+Overall, the estimates for Turkey and the UK do not change, but Portugal becomes the reference (alphabetically first) and you need to subtract or add the relevant lines for Turkey and UK to get their intercept values.
+
+
+
+
+
+
