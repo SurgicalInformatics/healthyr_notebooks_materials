@@ -122,14 +122,12 @@ load(here::here("melanoma_factored.rda"))
 
 Originally `status.factor` had three levels: `Died`, `Died - other causes` and `Alive`. This is not useful for us, as logistic regression requires outcomes to be binary.
 
-We want to find out using logistic regression, which variables predict death from Melanoma. So we need a factor variable, `died_melanoma.factor`. This will have two outcomes, `Yes` (did die from melanoma) or `No` (did not die from melanoma). We created the variable in the last session but this time we can add a label to the factor so that `finalfit` will use that label for tables and plots:
+We want to find out using logistic regression, which variables predict death from Melanoma. So we need a factor variable, `died_melanoma.factor`. This has two outcomes, `Yes` (did die from melanoma) or `No` (did not die from melanoma). We created the variable in the last session but this time we can add a label to the factor so that `finalfit` will use that label for tables and plots:
 
 
 ```{r}
 mydata = mydata %>% 
-  mutate(died_melanoma.factor = status.factor %>% 
-           fct_recode("Yes" = "Died",
-                      "No" = "Alive") %>% 
+  mutate(died_melanoma.factor = died_melanoma %>% 
            ff_label("Died from melanoma")
   )
 

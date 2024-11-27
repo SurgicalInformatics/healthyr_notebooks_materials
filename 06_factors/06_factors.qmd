@@ -59,7 +59,7 @@ mydata = mydata %>%
 
 While character columns are plotted or ran through statistical tests in an alphabetical order, with factors we can use any order we define
 
-For example, look at the order of levels of `mydata$status_factor` (levels are all the unique and ordered values a factor can have):
+For example, look at the order of levels of `mydata$status.factor` (levels are all the unique and ordered values a factor can have):
 
 ```{r}
 mydata$status.factor %>% levels()
@@ -81,17 +81,19 @@ mydata$status.factor %>% levels()
 
 # Group factor levels together - `fct_collapse()`
 
-`status.factor` currently has 3 levels, but we might want to make it binary so let's group "Died - other causes"' with those "Alive", to give a disease-specific mortality variable:
+`status.factor` currently has 3 levels, but we might want a binary outcome so let's group "Died - other causes"' with those "Alive", to give a disease-specific mortality variable called `died_melanoma`:
 
 
 ```{r}
 mydata = mydata %>%
-  mutate(status.factor = status.factor %>% 
-	fct_collapse("Alive" = c("Alive", "Died - other causes")))
+  mutate(died_melanoma = status.factor %>% 
+           fct_collapse("No" = c("Alive", "Died - other causes")) %>% 
+           fct_recode("Yes" = "Died") # we could've used fct_recode() or if_else() for all levels as well
+         )
 ```
 
 ```{r}
-mydata$status.factor %>% levels()
+mydata$died_melanoma %>% levels()
 ```
 
 # Converting a continuous (numeric) variable into a categorical variable - `cut()`
@@ -171,7 +173,7 @@ Always plot new data first!
 #| fig-height: 3
 
 mydata %>% 
-  ggplot(aes(x = ulcer.factor, fill=status.factor)) + 
+  ggplot(aes(x = ulcer.factor, fill = died_melanoma)) + 
   geom_bar(position = "fill") +
   theme_bw() +
   scale_fill_brewer(palette = "Paired")
@@ -184,7 +186,7 @@ mydata %>%
 
 
 mydata %>% 
-  ggplot(aes(x = age.factor, fill = status.factor)) +
+  ggplot(aes(x = age.factor, fill = died_melanoma)) +
   geom_bar() +
   theme_bw() +
   scale_fill_brewer(palette = "Paired")
@@ -195,7 +197,7 @@ mydata %>%
 #| fig-height: 3
 
 mydata %>% 
-  ggplot(aes(x = ulcer.factor, fill=status.factor)) + 
+  ggplot(aes(x = ulcer.factor, fill = died_melanoma)) + 
   geom_bar() +
   theme_bw() +
   scale_fill_brewer(palette = "Paired") +
@@ -210,12 +212,12 @@ Let's test mortality against sex.
 
 ```{r}
 
-table(mydata$status.factor, mydata$sex.factor)
-chisq.test(mydata$status.factor, mydata$sex.factor)
+table(mydata$died_melanoma, mydata$sex.factor)
+chisq.test(mydata$died_melanoma, mydata$sex.factor)
 
 ```
 
-Note that `chisq.test()` defaults to the Yates continuity correction. It is fine to use this, but if you have a particular need not to, turn if off with `chisq.test(mydata$status.factor, mydata$sex.factor, correct=FALSE)`.
+Note that `chisq.test()` defaults to the Yates continuity correction. It is fine to use this, but if you have a particular need not to, turn if off with `chisq.test(mydata$died_melanoma, mydata$sex.factor, correct=FALSE)`.
 
 ## Summarising factors with `library(finalfit)`
 
@@ -230,7 +232,7 @@ library(finalfit)
 
 # F1 summary_factorlist to see options
 mydata %>% 
-  summary_factorlist(dependent = "status.factor", 
+  summary_factorlist(dependent = "died_melanoma", 
                      explanatory = "sex.factor",
                      p = TRUE,
                      column = TRUE)
@@ -242,7 +244,7 @@ mydata %>%
 ```{r}
 
 mydata %>% 
-  summary_factorlist(dependent = "status.factor", 
+  summary_factorlist(dependent = "died_melanoma", 
                      explanatory = "age.factor",
                      p = TRUE,
                      column = TRUE)
@@ -256,7 +258,7 @@ mydata %>%
 ```{r}
 
 mydata %>% 
-  summary_factorlist(dependent = "status.factor", 
+  summary_factorlist(dependent = "died_melanoma", 
                      explanatory = "thickness",
                      p = TRUE,
                      column = TRUE)
@@ -277,7 +279,7 @@ Here is a quick way of doing so using our `finalfit` package.
 #| message: false
 
 mydata %>% 
-  summary_factorlist(dependent = "status.factor", 
+  summary_factorlist(dependent = "died_melanoma", 
                      explanatory = c("sex.factor", "thickness"),
                      p = TRUE,
                      column = TRUE)
@@ -295,11 +297,11 @@ mydata %>%
 
 # Calculate number of patients in each group
 counted_data = mydata %>%
-  count(ulcer.factor, status.factor)
+  count(ulcer.factor, died_melanoma)
 
 # Add the total number of people in each status group
 counted_data2 = counted_data %>%
-  group_by(status.factor) %>%
+  group_by(died_melanoma) %>%
   mutate(total = sum(n))   
 
 ```
@@ -326,13 +328,13 @@ Or combine everything together without the intermediate `counted_data` breaks.
 ```{r}
 
 mydata %>%
-  count(ulcer.factor, status.factor) %>%
-  group_by(status.factor) %>%
+  count(ulcer.factor, died_melanoma) %>%
+  group_by(died_melanoma) %>%
   mutate(total = sum(n)) %>%
   mutate(percentage = round(100*n/total, 1)) %>% 
   mutate(count_perc = paste0(n, " (", percentage, ")")) %>% 
   select(-total, -n, -percentage) %>% 
-  pivot_wider(names_from = status.factor, values_from = count_perc)
+  pivot_wider(names_from = died_melanoma, values_from = count_perc)
 
 ```
 
@@ -340,7 +342,7 @@ mydata %>%
 
 ## Exercise 2
 
-Using `finalfit` create a summary table with "status.factor" as the dependent variable and the following as explanatory variables:  
+Using `finalfit` create a summary table with "died_melanoma" as the dependent variable and the following as explanatory variables:  
 
 * `sex.factor`  
 * `ulcer.factor`  
@@ -351,22 +353,25 @@ Using `finalfit` create a summary table with "status.factor" as the dependent va
 
 Try changing the table to show `median` and `interquartile range` instead of mean and sd.  
 
+```{r}
+
+```
 
 
 ## Exercise 3
-By changing one and only one line in the following block create a new table showing the breakdown of `status.factor` by age and secondly the breakdown of `status.factor` by sex:
+By changing one and only one line in the following block create a new table showing the breakdown of `died_melanoma` by age and secondly the breakdown of `died_melanoma` by sex:
 
 ```{r}
 #| eval: false
 
 mydata %>%
-  count(ulcer.factor, status.factor) %>%
-  group_by(status.factor) %>%
+  count(ulcer.factor, died_melanoma) %>%
+  group_by(died_melanoma) %>%
   mutate(total = sum(n)) %>%
   mutate(percentage = round(100*n/total, 1)) %>% 
   mutate(count_perc = paste0(n, " (", percentage, ")")) %>% 
   select(-total, -n, -percentage) %>% 
-  pivot_wider(names_from = status.factor, values_from = count_perc)
+  pivot_wider(names_from = died_melanoma, values_from = count_perc)
 
 ```
 
@@ -374,6 +379,9 @@ mydata %>%
 ## Exercise 4
 Reproduce the table from Exercise 2 but this time with row-wise percentages instead of col(column)-wise percentages.
 
+```{r}
+
+```
 
 
 
@@ -394,7 +402,7 @@ mydata = mydata %>%
 
 ```{r}
 mydata %>% 
-  summary_factorlist(dependent = "status.factor", 
+  summary_factorlist(dependent = "died_melanoma", 
                      explanatory = c("sex.factor", "ulcer.factor", "age.factor", "thickness"),
                      p = TRUE,
                      column = TRUE,
@@ -405,20 +413,20 @@ mydata %>%
 
 ```{r}
 mydata %>%
-  count(age.factor, sex.factor,status.factor) %>%
-  group_by(status.factor) %>%
+  count(age.factor, sex.factor,died_melanoma) %>%
+  group_by(died_melanoma) %>%
   mutate(total = sum(n)) %>%
   mutate(percentage = round(100*n/total, 1)) %>% 
   mutate(count_perc = paste0(n, " (", percentage, ")")) %>% 
   select(-total, -n, -percentage) %>% 
-  pivot_wider(names_from = status.factor, values_from = count_perc)
+  pivot_wider(names_from = died_melanoma, values_from = count_perc)
 ```
 
 ## Excercise 4 Solution
 
 ```{r}
 mydata %>% 
-  summary_factorlist(dependent = "status.factor", 
+  summary_factorlist(dependent = "died_melanoma", 
                      explanatory = c("sex.factor", "ulcer.factor", "age.factor", "thickness"),
                      p = TRUE,
                      column = FALSE,
