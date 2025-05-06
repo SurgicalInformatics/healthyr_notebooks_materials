@@ -3,6 +3,7 @@ title: "Your first R Notebook"
 format:
   pdf: default
   html: default
+  docx: default
 ---
 
 In this session, we will create five beautiful and colourful barplots in less than an hour.
