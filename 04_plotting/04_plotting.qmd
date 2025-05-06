@@ -110,9 +110,9 @@ mydata %>%
 
 After filtering to European countries only (note the `filter(continent == "Europe") %>%`), we can plot life expectancy over time in grey colour for all countries, then add United Kingdom as a red line. Run this chunk to see how that looks.
 
-Add in another coloured line, e.g. France in blue.
+Question: how do you add in another coloured line, e.g. France in blue?
 
-```{r, fig.width=4, fig.height=2}
+```{r}
 #| fig-width: 4
 #| fig-height: 2
 

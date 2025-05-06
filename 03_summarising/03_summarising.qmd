@@ -130,6 +130,7 @@ You should see that `mutate()` adds the same total number (309.4174) to every li
 ## Exercise 4 (optional)
 
 Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo **Exercise 2** without using a join? 
+
 Hint: instead of creating `summary_data1` (total deaths per year) as a separate tibble which we then join with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total deaths per year to each row.
 
 ```{r}

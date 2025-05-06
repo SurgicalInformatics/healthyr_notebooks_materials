@@ -85,11 +85,11 @@ mydata$status.factor %>% levels()
 
 
 ```{r}
-mydata = mydata %>%
+mydata = mydata %>% 
   mutate(died_melanoma = status.factor %>% 
-           fct_collapse("No" = c("Alive", "Died - other causes")) %>% 
-           fct_recode("Yes" = "Died") # we could've used fct_recode() or if_else() for all levels as well
-         )
+           fct_collapse("Yes" = "Died",
+                        "No"  = c("Alive", "Died - other causes"))
+  )
 ```
 
 ```{r}
@@ -98,7 +98,7 @@ mydata$died_melanoma %>% levels()
 
 # Converting a continuous (numeric) variable into a categorical variable - `cut()`
 
-Sometimes we want to cut a numeric variable into categories. This may be when dealing with known tresholds (e.g. it is known that e.g. 5 mg of something is completely harmless but that there is a step change after that). Another reason for cutting a continuous variable into categories is if it doesn't have a linear response to the outcome but we want to use a linear model.
+Sometimes we want to cut a numeric variable into categories. This may be when dealing with known thresholds (e.g. it is known that e.g. 5 mg of something is completely harmless but that there is a step change after that). Another reason for cutting a continuous variable into categories is if it doesn't have a linear response to the outcome but we want to use a linear model.
 
 ```{r}
 mydata = mydata %>%
@@ -159,7 +159,8 @@ load(here::here("melanoma_factored.rda"))
 
 Whereas spreadsheets (or formats from other stats packages) are read:
 
-```{r, eval = FALSE}
+```{r}
+#|eval: false
 #read_csv(here::here("global_burden_disease_short.csv"))
 ```
 
