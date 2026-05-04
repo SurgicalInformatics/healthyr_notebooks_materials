@@ -402,11 +402,7 @@ For combining tibbles based on shared variables we use the Joins: `left_join()`,
 first_data  = select(mydata, year, cause, deaths) %>% slice(2:7)
 second_data = select(mydata, year, cause, deaths_millions) %>% slice(1:6)
 
-<<<<<<< HEAD
-#change the order of rows in first_data to demonstrate the join does not rely on the ordering of rows:
-=======
 # change the order of rows in first_data to demonstrate the join does not rely on the ordering of rows:
->>>>>>> 2bef285acf0edb159a48f0afc0071fae67a4084a
 first_data = arrange(first_data, deaths)
 
 left_join(first_data, second_data)
