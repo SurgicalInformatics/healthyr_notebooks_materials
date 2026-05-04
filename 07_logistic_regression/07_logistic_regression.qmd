@@ -57,11 +57,11 @@ Look at the numbers and convince yourself that this works.
 
 ## Odds ratios
 
-For a given categorical explanatory variable (e.g. gender), the likelihood of an outcome/dependent occurring (e.g cancer) can be expressed in a ratio of odds or odds ratio , e.g. the odds of men developing cancer is 2-times that of females, odds ratio = 2.0. 
+For a given categorical explanatory variable (e.g. sex), the likelihood of an outcome/dependent occurring (e.g cancer) can be expressed in a ratio of odds or odds ratio , e.g. the odds of men developing cancer is 2-times that of females, odds ratio = 2.0. 
 
 ![](or.png)
 
-An alternative is a ratio of probabilites, called a risk ratio or relative risk. Odds ratios have useful mathematical characteristics and are the main expression of results in logistic regression analysis.
+An alternative is a ratio of probabilities, called a risk ratio or relative risk. Odds ratios have useful mathematical characteristics and are the main expression of results in logistic regression analysis.
 
 # Melanoma dataset
 
@@ -255,7 +255,7 @@ The 2.5% is the lower bound and the 97.5% is the upper bound of the 95% confiden
 
 So we can therefore say that being male doubles your chances of dying from melanoma with an Odds Ratio of 2.03 (95% confidence interval of 1.09 to 3.79)
 
-## Exercise
+## Exercise 1
 
 Repeat this for all the variables contained within the data, particulary:
 
@@ -350,7 +350,7 @@ mydata %>%
 
 Note- when we enter age into regression models, the effect estimate is provided in terms of per unit increase. So in this case it's expressed in terms of an odds ratio per year increase (i.e. for every year in age gained odds of death increases by 1.02).
 
-## Exercise
+## Exercise 2 
 
 Now you try making a regression that includes `ulcer.factor`.
 
@@ -368,7 +368,7 @@ There are different approaches to model fitting. Come to our course HealthyR-Adv
 
 The C-statistic describes discrimination and anything over 0.60 is considered good. The closer to 1.00 the C-statistic is, the better the fit.
 
-The AIC measure model fit with lower values indicating better fit. 
+The AIC measures model fit with lower values indicating better fit. 
 
 These metrics are available here:
 ``` {r}
@@ -377,7 +377,9 @@ mydata %>%
 ```
 
 
+# Solutions
 
+## Exercise 1 Solution 
 
 ```{r}
 model2 = glm(died_melanoma.factor ~ stage.factor, data = mydata, family = "binomial")
@@ -401,7 +403,7 @@ exp(model5$coefficients)
 exp(confint(model5))
 ```
 
-## Exercise 2 solution 
+## Exercise 2 Solution 
 
 ```{r}
 dependent="died_melanoma.factor"

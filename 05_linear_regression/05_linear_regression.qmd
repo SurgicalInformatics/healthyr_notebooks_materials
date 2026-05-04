@@ -22,7 +22,6 @@ mydata = read_csv(here::here("gapminder_data.csv"))
 
 Let's plot the life expectancies of European countries over the past 60 years:
 
-
 ```{r}
 #| fig-height: 5
 #| fig-width: 6
@@ -47,14 +46,12 @@ mydata %>%
   count(continent)
 ```
 
-
 ```{r}
 # same as above but with filtering for 3 continents
 mydata %>% 
   filter(continent %in% c("Europe", "Asia", "Africa")) %>% 
   count(continent)
 ```
-
 
 # `c()` recap
 
@@ -64,12 +61,12 @@ Note the use of the combine function - `c()`. If we tried to do it without it, i
 
 Create the same plot as above (life expectancy over time), but for just Turkey and the United Kingdom, and add linear regression lines.
 
-1. Copy the 6-line code from the second chunk in this Notebook (`mydata %>% filter(...) %>% ggplot(...) +`).
-2. Change `continent` to `country`.
-3. Replace `==` with `%in%`.
-4. Replace `"Europe"` with `c("United Kingdom", "Turkey")`.
-5. Run what you have there to see if you get two plots.
-6. Add `+ geom_smooth(method = "lm")` to get linear regression lines added in the plots. `lm()` stands for linear model.
+1.  Copy the 6-line code from the second chunk in this Notebook (`mydata %>% filter(...) %>% ggplot(...) +`).
+2.  Change `continent` to `country`.
+3.  Replace `==` with `%in%`.
+4.  Replace `"Europe"` with `c("United Kingdom", "Turkey")`.
+5.  Run what you have there to see if you get two plots.
+6.  Add `+ geom_smooth(method = "lm")` to get linear regression lines added in the plots. `lm()` stands for linear model.
 
 ```{r}
 # Exercise 1 - your R code
@@ -81,6 +78,7 @@ Create the same plot as above (life expectancy over time), but for just Turkey a
 As you can see, `ggplot()` is very happy to run and plot linear regression for us. To access the results, however, we should save the full results of the linear regression models into variables in our Environment. We can then investigate the intercepts and the slope coefficients (linear increase per year):
 
 United Kingdom:
+
 ```{r}
 fit_uk = mydata %>%
   filter(country == "United Kingdom") %>% 
@@ -90,7 +88,8 @@ fit_uk %>%
   summary()
 ```
 
-Turkey: 
+Turkey:
+
 ```{r}
 fit_turkey = mydata %>%
   filter(country == "Turkey") %>% 
@@ -102,8 +101,7 @@ fit_turkey %>%
 
 # When pipe sends data to the wrong place: use `, data = .` to direct it
 
-In the code above, the `, data = .` bit is necessary because the pipe usually sends data to the beginning of function brackets. So `mydata %>% lm(lifeExp~year)` would be equivalent to `lm(mydata, lifeExp~year)`. However, this is not an order that `lm()` will accept. `lm()` wants us to specify the variables first (`dependent~explanatory`), and then wants the data these variables are present in. So we have to use the `.` to tell the pipe to send the data to the second argument of `lm()`, not the first.
-
+In the code above, the `, data = .` bit is necessary because the pipe usually sends data to the beginning of function brackets. So `mydata %>% lm(lifeExp~year)` would be equivalent to `lm(mydata, lifeExp~year)`. However, this is not an order that `lm()` will accept. `lm()` wants us to specify the variables first (`dependent~explanatory`), and then wants the data these variables are present in. So we have to use the `.` to tell the pipe to send the data to the second argument of `lm()`, not the first. In the help tab we can see the order of the arguments expected by the lm() function.
 
 # Accessing the coefficients of linear regression
 
@@ -117,8 +115,7 @@ fit_uk$coefficients
 fit_turkey$coefficients
 ```
 
-
-In this example, the intercept is telling us that life expectancy at year 0 in the United Kingdom (so 2019 years ago) was -294 years. While this is mathematically correct (based on the data we have it), it does not make physiological sense. It is up you, the person using R, to know when your model is overreaching.
+In this example, the intercept is telling us that life expectancy at year 0 in the United Kingdom (so 2019 years ago) was -294 years. While this is mathematically correct (based on the data we have), it does not make physiological sense. It is up you, the person using R, to know when your model is overreaching.
 
 To make the intercepts more meaningful, let's add in a new column called `year_from1952` and redo `fit_turkey` and `fit_uk` using `year_from1952` instead of `year`.
 
@@ -135,11 +132,9 @@ fit_turkey = mydata %>%
   lm(lifeExp~year_from1952, data = .)
 ```
 
-
 ```{r}
 fit_uk$coefficients
 ```
-
 
 ```{r}
 fit_turkey$coefficients
@@ -159,15 +154,13 @@ fit_uk %>% tidy()
 
 In the `tidy()` output, the column `estimate` includes both the intercepts and slopes.
 
-
 And we use the `glance()` function to get overall model statistics (mostly the r.squared).
+
 ```{r}
 fit_uk %>% glance()
 ```
 
-
 # Interactive Shiny apps for learning about linear regression
-
 
 https://gallery.shinyapps.io/simple_regression/
 
@@ -177,9 +170,9 @@ https://argoshare.is.ed.ac.uk/multi_regression/
 
 ## Exercise 2
 
-Open the first Shiny app ("Simple regression"). Move the sliders until the red lines (residuals*) turn green - this means you've made the line fit the points as well as possible. Look at the intercept and slope - discuss with your neighbour or a tutor what these numbers mean/how they affect the straight line on the plot.
+Open the first Shiny app ("Simple regression"). Move the sliders until the red lines (residuals\*) turn green - this means you've made the line fit the points as well as possible. Look at the intercept and slope - discuss with your neighbour or a tutor what these numbers mean/how they affect the straight line on the plot.
 
-*Residual is how far away each point (observation) is from the linear regression line. (In this example it's the linear regression line, but residuals are relevant in many other contexts as well.)
+\*Residual is how far away each point (observation) is from the linear regression line. (In this example it's the linear regression line, but residuals are relevant in many other contexts as well.)
 
 # Multiple linear regression
 
@@ -203,9 +196,9 @@ These examples of multiple regression include two variables: `year` and `country
 
 Open the second Shiny app ("Multiple regression") and see how:
 
-* In simple regression, there is only one intercept and slope for the whole dataset.
-* Using the additive model (`lm(formula = y ~ x + group`) the two lines (one for each group) have different intercepts but the same slope. However, the `lm()` summary seems to only include one line called "(Intercept)", how to find the intercept for the second group of points?
-* Using the interactive model (`lm(formula = y ~ x*group`)) the two lines have different intercepts and different slopes.
+-   In simple regression, there is only one intercept and slope for the whole dataset.
+-   Using the additive model (`lm(formula = y ~ x + group`) the two lines (one for each group) have different intercepts but the same slope. However, the `lm()` summary seems to only include one line called "(Intercept)", how to find the intercept for the second group of points?
+-   Using the interactive model (`lm(formula = y ~ x*group`)) the two lines have different intercepts and different slopes.
 
 ## Exercise 4
 
@@ -217,7 +210,6 @@ fit_uk %>%
   mutate(estimate = round(estimate, 2)) %>% 
   select(term, estimate)
 ```
-
 
 ```{r}
 fit_turkey %>%
@@ -235,18 +227,18 @@ mydata %>%
   tidy() %>%
   mutate(estimate = round(estimate, 2)) %>% 
   select(term, estimate)
+
 ```
 
 Now. It may seem like R has omitted Turkey but the values for Turkey are actually in the Intercept = 46.02 and in year_from1952 = 0.50. Can you make out the intercept and slope for the UK? Are they the same as in the simple linear regression model?
 
 ## Exercise 5
 
+1.  Copy the multivariable linear regression model (where "Turkey" and the "United Kingdom" are in the same `lm()` model) from Exercise 4.
 
-1. Copy the multivariable linear regression model (where "Turkey" and the "United Kingdom" are in the same `lm()` model) from Exercise 4.
+2.  Include a third country (e.g. "Portugal") in the `filter(country %in% c("Turkey", "United Kingdom", "Portugal"))` to your multivariable linear regression model.
 
-2. Include a third country (e.g. "Portugal") in the `filter(country %in% c("Turkey", "United Kingdom", "Portugal"))` to your multivariable linear regression model.
-
-3. Do the results change? How, and why?
+3.  Do the results change? How, and why?
 
 ```{r}
 # Exercise 5 - your R code
@@ -256,10 +248,12 @@ Now. It may seem like R has omitted Turkey but the values for Turkey are actuall
 
 Piping a fit object into the Base R's `plot()` function gives us 4 diagnostic plots:
 
-```{r, fig.width=3.8, fig.height=3}
+```{r}
+#| fig-height: 3
+#| fig-width: 3.8
+
 fit_turkey %>% plot()
 ```
-
 
 # Solutions
 
@@ -278,7 +272,6 @@ mydata %>%
 
 ## Exercise 5 solution
 
-
 ```{r}
 
 mydata %>% 
@@ -291,9 +284,3 @@ mydata %>%
 ```
 
 Overall, the estimates for Turkey and the UK do not change, but Portugal becomes the reference (alphabetically first) and you need to subtract or add the relevant lines for Turkey and UK to get their intercept values.
-
-
-
-
-
-

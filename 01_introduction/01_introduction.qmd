@@ -3,6 +3,7 @@ title: "Your first R Notebook"
 format:
   pdf: default
   html: default
+  docx: default
 ---
 
 In this session, we will create five beautiful and colourful barplots in less than an hour.
@@ -29,7 +30,7 @@ If your cursor is in a code chunk (in the grey area), you can use these keyboard
 4. Get `mydata2013` printed in your notebook by typing it on the empty line right after the `source(here::here("initialise_healthyr.R"))` line. Remember: Control+Enter to run and for it to show.
 
 ```{r}
-# Run the source line (Control+Entrer) and check the Environment tab
+# Run the source line (Control+Enter or Command+Enter) and check the Environment tab
 source(here::here("initialise_healthyr.R"))
 
 ```
