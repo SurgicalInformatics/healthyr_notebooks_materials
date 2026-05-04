@@ -395,14 +395,14 @@ Hint: Think about how we always add quotes around characters.
 
 # Combining two tibbles
 
-For combining tibbles based on shared variables we use the Joins: `left_join()`, `right_join()`, `inner_join()`, or `full_join()`. Let's split some of the variables in `mydata` between two new tibbles: `first_data` and `second_data`. For demonstrating the difference between the different joins, we will only include a subset (first 6 rows) of the dataset in `second_data`. We are also including slightly different variables in the two new tibbles (note the deaths vs deaths_millions). Investigate the four different joins in the code chunk below (Cntr+Enter) and discuss how the number of rows in the output changes and how they might work.
+For combining tibbles based on shared variables we use the Joins: `left_join()`, `right_join()`, `inner_join()`, or `full_join()`. Let's split some of the variables in `mydata` between two new tibbles: `first_data` and `second_data`. For demonstrating the difference between the different joins, we will include different subsets of the data in first_data and second_data (6 rows, using function slice()). We are also including slightly different variables in the two new tibbles (note the deaths vs deaths_millions). Investigate the four different joins in the code chunk below (Cntr+Enter) and discuss how the number of rows in the output changes and how they might work.
 
 ```{r}
 
-first_data  = select(mydata, year, cause, deaths)
+first_data  = select(mydata, year, cause, deaths) %>% slice(2:7)
 second_data = select(mydata, year, cause, deaths_millions) %>% slice(1:6)
 
-#change the order of rows in first_data to demosntrate the join does not rely on the ordering of rows:
+#change the order of rows in first_data to demonstrate the join does not rely on the ordering of rows:
 first_data = arrange(first_data, deaths)
 
 left_join(first_data, second_data)
@@ -411,8 +411,6 @@ inner_join(first_data, second_data)
 full_join(first_data, second_data)
 
 ```
-
-Hint: In this example, `left_join()` and `full_join()` return the exact same thing, why is that?
 
 Those who have used R before, or those who come across older scripts will have seen `merge()` instead of the joins. `merge()` works similarly to joins, but instead of having the four options defined clearly at the front, you would have had to use the `all = FALSE, all.x = all, all.y = all` arguments. We don't recommend using `merge()` any more.
 

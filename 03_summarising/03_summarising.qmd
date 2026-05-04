@@ -8,7 +8,6 @@ format:
 
 In this session we will get to know our three best friends for summarising data: `group_by()`, `summarise()`, and `mutate()`.
 
-
 # Data
 
 In Session 2, we used a very condensed version of the Global Burden of Disease data. In this module we are going back to a longer one and we will learn how to summarise it ourselves.
@@ -36,18 +35,15 @@ mydata %>%
 	filter(year == 1990)
 ```
 
-
 # Tidyverse packages: ggplot2, dplyr, tidyr, etc.
 
 Most of the functions introduced in this session come from the tidyverse family (http://tidyverse.org/), rather than Base R. Including `library(tidyverse)` in your script loads a list of packages: ggplot2, dplyr, tidyr, forcats, etc.
 
 ![](library_vs_package.png)
 
-
 ```{r}
 library(tidyverse)
 ```
-
 
 # Basic functions for summarising data
 
@@ -59,7 +55,6 @@ mydata$deaths_millions %>% mean()
 ```
 
 But if you want to get the total number of deaths for each `year` (or `cause`, or `sex`, whichever grouping variables you have in your dataset) you can use `group_by()` and `summarise()` that make subgroup analysis very convenient and efficient.
-
 
 # Subgroup analysis: `group_by()` and `summarise()`
 
@@ -79,21 +74,18 @@ summary_data2 = mydata %>%
 summary_data2
 ```
 
-* `summary_data1` includes the total number of deaths per year.
-* `summary_data2` includes the number of deaths per cause per year.
+-   `summary_data1` includes the total number of deaths per year.
+-   `summary_data2` includes the number of deaths per cause per year.
 
 ## Exercise 1
 
 Compare the number of rows (observations) and number of columns (variables) of:
 
-* `mydata`, 
-* `summary_data1`, and 
-* `summary_data2` (in the Environment tab).
+-   `mydata`,
+-   `summary_data1`, and
+-   `summary_data2` (in the Environment tab).
 
-Notice that:
-* `summary_data2` has exactly 3 times as many rows as `summary_data1`. Why?
-* `mydata` has 5 variables, whereas the summarised tibbles have 2 and 3. Which variables got dropped? Why?
-
+Notice that: \* `summary_data2` has exactly 3 times as many rows as `summary_data1`. Why? \* `mydata` has 5 variables, whereas the summarised tibbles have 2 and 3. Which variables got dropped? Why?
 
 ## Exercise 2
 
@@ -105,7 +97,6 @@ Hint: Use `full_join()` on `summary_data1` and `summary_data2`.
 # Exercise 2 - your R code:
 
 ```
-
 
 # `mutate()`
 
@@ -125,23 +116,23 @@ mutate_example = mydata %>%
 mutate_example
 ```
 
-You should see that `mutate()` adds the same total number (309.4174) to every line in the tibble. 
+You should see that `mutate()` adds the same total number (309.4174) to every line in the tibble.
 
 ## Exercise 4 (optional)
 
-Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo **Exercise 2** without using a join? 
-Hint: instead of creating `summary_data1` (total deaths per year) as a separate tibble which we then join with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total deaths per year to each row.
+Based on what we just observed on how `mutate()` adds a value to each row, can you think of a way to redo **Exercise 2** without using a join? Hint: instead of creating `summary_data1` (total deaths per year) as a separate tibble which we then join with `summary_data2` (total deaths for all causes per year), we can use `mutate()` to add total deaths per year to each row.
 
 ```{r}
 # Exercise 4 - your R code:
 
 ```
 
-Did you notice in Exercise 4, that when we use `group_by()` before `summary()`, a helpful message appears (don't worry, red doesn't always mean bad) to let you know that the output has been regrouped with one group fewer?  This means we can add `mutate()` without having to redefine the groups with another `group_by()`.  Look out for this message in future exercises.
+Did you notice in Exercise 4, that when we use `group_by()` before `summary()`, a helpful message appears (don't worry, red doesn't always mean bad) to let you know that the output has been regrouped with one group fewer? This means we can add `mutate()` without having to redefine the groups with another `group_by()`. Look out for this message in future exercises.
 
 # Wide vs long: `pivot_wider()` and `pivot_longer()`
 
 ## Wide format
+
 Although having data in the long format is very convenient for R, for publication tables, it makes sense to spread some of the values out into columns:
 
 ```{r}
@@ -155,19 +146,20 @@ alldata %>%
 ```
 
 ## Exercise 5
+
 Calculate the percentage of male and female deaths for each year. Then use `pivot_wider()` to put the values into columns. This makes it more human-readable.
 
 Hints:
 
-* create `summary_data3` that includes a variable called `total_per_sex`
-* join `summary_data1` and `summary_data3` into a new tibble
-* calculate the percentage of `total_per_sex` to `total_per_year`
-* round, add % labels (or use `percent()` by including `library(scales)`)
-* then use `pivot_wider()`
-* save your object as `result_wider`
+-   create `summary_data3` that includes a variable called `total_per_sex`
+-   join `summary_data1` and `summary_data3` into a new tibble
+-   calculate the percentage of `total_per_sex` to `total_per_year`
+-   round, add % labels (or use `percent()` by including `library(scales)`)
+-   then use `pivot_wider()`
+-   save your object as `result_wider`
 
+Solution:
 
-Solution: 
 ```{r}
 # Exercise 5 - your R code:
 
@@ -178,6 +170,7 @@ Solution:
 The inverse of `pivot_wider()` is `pivot_longer()`. Be aware that making data longer is harder to get right at first. Don't be discouraged if `pivot_longer()` takes a few tries and tests. We find it harder to do as well.
 
 The code here is the solution to Exercise 5 as we need something wider to be able to make it longer again:
+
 ```{r}
 summary_data1 = mydata %>% 
 	group_by(year) %>% 
@@ -198,9 +191,9 @@ result_wider = alldata %>%
 result_wider
 ```
 
-* After piping in the data, the next argument to `pivot_longer()` indicates which columns should be put together into the new longer variable. Since `result_wider` is a very small example tibble, we can just specify the column we don't want pulled together - `year`. In `pivot_longer()`, `-year` means we want to put everything but year into the new longer columns.
+-   After piping in the data, the next argument to `pivot_longer()` indicates which columns should be put together into the new longer variable. Since `result_wider` is a very small example tibble, we can just specify the column we don't want pulled together - `year`. In `pivot_longer()`, `-year` means we want to put everything but year into the new longer columns.
 
-* We then add `names_to = "sex", values_to = "percentage"` to give the new columns names. These are quoted as they are new names we are assigning, feel free to experiment with changing "sex" or "percentage" to anything else here, even your name. It's just a new name you are choosing for the new columns. Whereas in the `pivot_wider()` example above, sex and percentage were not quoted, as they were referring to existing columns within the dataset, not new names we are assigning.
+-   We then add `names_to = "sex", values_to = "percentage"` to give the new columns names. These are quoted as they are new names we are assigning, feel free to experiment with changing "sex" or "percentage" to anything else here, even your name. It's just a new name you are choosing for the new columns. Whereas in the `pivot_wider()` example above, sex and percentage were not quoted, as they were referring to existing columns within the dataset, not new names we are assigning.
 
 ```{r}
 # Exercise 6 - modify this:
@@ -219,7 +212,7 @@ result_wider %>%
 
 ### Selecting columns for pivot_longer, select helpers
 
-If your tibble has many columns, you'll need to list the ones you do want to collect. For that, you will have to use a select helper. You can find the list of select helpers by typing "select helpers" into the Help tab in RStudio and then clicking on the page listed as "tidyselect::select_helpers		Select helpers". Alternatively, search online for examples. They can be extremely helpful and powerful.
+If your tibble has many columns, you'll need to list the ones you do want to collect. For that, you will have to use a select helper. You can find the list of select helpers by typing "select helpers" into the Help tab in RStudio and then clicking on the page listed as "tidyselect::select_helpers Select helpers". Alternatively, search online for examples. They can be extremely helpful and powerful.
 
 How we usually get started with a new `pivot_longer()` line is that we figure out the select helper for it first by trialling it inside `select()`.
 
@@ -273,16 +266,15 @@ mydata %>%
 	arrange(-year) # reorder after summarise()
 ```
 
-
 ## Exercise 7
 
 This exercise includes multiple steps, combining all of the above.
 
-* Load `"global_burden_disease_long.rda"`.
-* Calculate the total number of deaths in Developed and Developing countries. Hint: use `group_by(location)` and `summarise( Include new column name = sum() here)`.
-* Calculate the total number of deaths in Developed and Developing countries and for men and women. Hint: this is as easy as adding `, sex` to `group_by()`.
-* Filter for 1990.
-* `pivot_wider()` using `location` column as `names_from` and and your new calculated column as `values_from.`
+-   Load `"global_burden_disease_long.rda"`.
+-   Calculate the total number of deaths in Developed and Developing countries. Hint: use `group_by(location)` and `summarise( Include new column name = sum() here)`.
+-   Calculate the total number of deaths in Developed and Developing countries and for men and women. Hint: this is as easy as adding `, sex` to `group_by()`.
+-   Filter for 1990.
+-   `pivot_wider()` using `location` column as `names_from` and and your new calculated column as `values_from.`
 
 ```{r}
 library(tidyverse)
@@ -292,7 +284,7 @@ load(here::here("global_burden_disease_long.rda"))
 
 ```
 
-## Export object or table as a spreadsheet. 
+## Export object or table as a spreadsheet.
 
 To save as a csv file use `write_csv()`:
 
@@ -303,6 +295,18 @@ write_csv(result_wider, "gbd_genders_summarised.csv")
 
 You can open a csv file with Excel and copy the table into Word or PowerPoint for presenting.
 
+# Helpful functions
+
+When working with data, we recommend using variable names that implement snake case (lower case and separated by underscores(\_)). R is case sensitive and snake case is consistent and easy to read. A helpful function to use when working with your own data is clean_names() from the `janitor` package. This function changes messy variable names into snake case by default, and allows you to quickly get R-friendly variable names. Try it below!
+
+```{r}
+tibble_messy = tibble(VariableOne = 1:5,
+                    `Variable Two` = 6:10)
+
+tibble_messy
+
+tibble_messy %>%  clean_names()
+```
 
 
 # Solutions
@@ -354,7 +358,6 @@ result_wider
 result_wider %>% 
   pivot_longer(-year)
 ```
-
 
 ## Exercise 7 solution
 
